@@ -143,11 +143,21 @@
         <h4 class="ui dividing header">Anexo de Documentos</h4>
 
         <div class="field">
-            <label>Domicilio</label>
-            <input name="domicilio" placeholder="Blvd. Centro Sur 120 Queretaro Queretaro" type="text">  
+            <label>CURP o Pasaporte</label>
+            <input type="file" name="curp_file"> 
         </div>
 
-        <input type="file" name="photo">
+        <div class="field">
+            <label>Compronbante de Domicilio</label>
+            <input type="file" name="comprobante"> 
+        </div>
+
+        <div class="field">
+            <label>Cédula de Identificación Fiscal</label>
+            <input type="file" name="rfc_file"> 
+        </div>
+
+        
 
   <div class="ui blue submit button">Submit</div>
 </form>
