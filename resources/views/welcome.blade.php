@@ -10,6 +10,7 @@
   <!-- Site Properties -->
   <title>Homepage - Semantic</title>
   <link rel="stylesheet" type="text/css" href="/css/semantic/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/css/semantic/components/icon.css">
 
   <style type="text/css">
 
@@ -171,7 +172,7 @@
         Bienvenido al sistema de contratación Avive
       </h1>
       <h2>Para iniciar recuerda tener tu documentación a la mano</h2>
-      <div class="ui huge primary button">Iniciar Proceso <i class="right arrow icon"></i></div>
+      <a href="{{action('ContratoController@index')}}" class="ui huge primary button">Iniciar Proceso <i class="right arrow icon"></i></a>
     </div>
 
   </div>
