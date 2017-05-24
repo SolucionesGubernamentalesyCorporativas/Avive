@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ContratoRequest;
+use Illuminate\Support\Facades\Storage;
+use App\Contrato;
+use App\Membresia;
+use App\Pago;
 
 class ContratoController extends Controller
 {
@@ -14,7 +19,10 @@ class ContratoController extends Controller
     public function index()
     {
         //
-        return view('contratos.index');
+        $membresias = Membresia::all();
+        $pagos = Pago::all();
+        return view('contratos.index')->with('membresias',$membresias)
+                                      ->with('pagos',$pagos);
     }
 
     /**
@@ -33,9 +41,33 @@ class ContratoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ContratoRequest $request)
     {
         //
+        $pago = Pago::find($request->pagos);
+        $membresia = Membresia::find($request->membresia);
+
+
+        $contrato = new Contrato;
+        $contrato->nombre_afiliado = $request->nombre;
+        $contrato->curp_afiliado = $request->curp;
+        $contrato->edad_afiliado = $request->edad;
+        $contrato->domicilio_afiliado = $request->domicilio;
+        $contrato->rfc_afiliado = $request->rfc;
+        $contrato->correo_electronico_afiliado = $request->email;
+        $contrato->membresia()->associate($membresia);
+        $contrato->pago()->associate($pago); 
+
+
+        $curp = $request->curp_file->store('public/img');
+        $rfc = $request->rfc_file->store('public/img');
+        $comprobante = $request->comprobante->store('public/img');
+        $contrato->url_curp = Storage::url($curp);
+        $contrato->url_rfc = Storage::url($rfc);
+        $contrato->url_comprobante = Storage::url($comprobante);
+        $contrato->save();
+        return "listo";
+
     }
 
     /**
@@ -47,6 +79,10 @@ class ContratoController extends Controller
     public function show($id)
     {
         //
+        $contrato = Contrato::find($id);
+        $visibility = $contrato->url_curp;
+         //dd($visibility);
+        return view('admin.contratosP')->with('contrato',$contrato);
     }
 
     /**

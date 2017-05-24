@@ -21,8 +21,8 @@ class CreateContratosTable extends Migration
             $table->string('domicilio_afiliado');
             $table->string('rfc_afiliado');
             $table->string('correo_electronico_afiliado');
-            $table->string('cuenta_bancaria');
-            $table->string('cuenta_clabe');
+            $table->string('cuenta_bancaria')->nullable();
+            $table->string('cuenta_clabe')->nullable();
             $table->string('nacionalidad_afiliado')->nullable();
             $table->string('denominacion_contrato')->nullable();
             $table->string('nombre_representante')->nullable();
@@ -41,9 +41,14 @@ class CreateContratosTable extends Migration
             $table->string('exten_max')->nullable();
             $table->string('caracteres')->nullable();
             $table->string('duracion_contrato')->nullable();
-            $table->string('fecha_inicio_contrato');
-            $table->string('fecha_fin_contrato');
+            $table->string('fecha_inicio_contrato')->nullable();
+            $table->string('fecha_fin_contrato')->nullable();
             $table->boolean('terminado')->default(0);
+            $table->bigInteger('membresia_id');
+            $table->bigInteger('pago_id');
+            $table->string('url_curp');
+            $table->string('url_rfc');
+            $table->string('url_comprobante');
             $table->timestamps();
         });
     }

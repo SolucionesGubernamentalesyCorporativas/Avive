@@ -48,47 +48,75 @@
   </div>
   <p>Todos los elementos que anexes, tendrán que tener formato jpg,jpeg, o png.</p>
 </div>
+@if($errors->any())
+<div class="ui error attached message">
+    <i class="close icon"></i>
+    <div class="header">
+        Hubo problemas con el registro:
+    </div>
+    <ul class="list">
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+    </ul>
+</div>
+@endif
 
-    <form class="ui form attached fluid segment" enctype="multipart/form-data">
-
+    <form method="POST" action="{{action('ContratoController@store')}}" class="ui form attached fluid segment" enctype="multipart/form-data">
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <!-- INICIA INFO PERSONAL -->
 
         <h4 class="ui dividing header">Información Personal</h4>
         <div class="field">
             <div class="fields">
-                <div class="twelve wide field">
+                @if($errors->has('nombre'))
+                <div class="twelve wide field required error">
+                @else
+                <div class="twelve wide field required">
+                @endif
                     <label>Nombre Completo</label>
-                    <input type="text" name="nombre" placeholder="Pedro Oscar Sanchez Sanchez">
+                    <input value="{{old('nombre')}}" type="text" name="nombre" placeholder="Pedro Oscar Sanchez Sanchez">
                 </div>
-                <div class="four wide field">
+                @if($errors->has('edad'))
+                <div class="four wide field required error">
+                @else
+                <div class="four wide field required">
+                @endif
                     <label>Edad</label>
-                    <input type="number" name="edad" placeholder="33">
+                    <input value="{{old('edad')}}" type="number" name="edad" placeholder="33">
                 </div>
             </div>
         </div>
 
-        
-        <div class="field">
+        @if($errors->has('email'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
             <label>Correo Electrónico</label>
-            <input name="email" placeholder="pedro@gmail.com" type="text">  
+            <input value="{{old('email')}}" name="email" placeholder="pedro@gmail.com" type="text">  
         </div>
 
-        <div class="field">
+        @if($errors->has('nacionalidad'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
             <label>Nacionalidad</label>
             <div class="two fields">
                 <div class="field">
-                    <select name="nacionalidad" class="ui selection dropdown nacionalidad" >
+                    <select  name="nacionalidad" class="ui selection dropdown nacionalidad" >
                         <option value="">Nacionalidad</option>
                         <option value="1">Mexicana</option>
                         <option value="0">Otra</option>
                     </select>
                 </div>
 
-                <div class="field" id="nac_otra">
+                <div class="field required" id="nac_otra">
                     <input name="nac_otra" placeholder="Escriba cual" type="text">
                 </div>
 
-                <div class="field" id="curp">
+                <div class="field required" id="curp">
                     <input name="curp" placeholder="CURP" type="text">
                 </div>
             </div>
@@ -104,34 +132,46 @@
         
         <div class="inline field" id="curp">
             <label>RFC</label>
-            <input name="rfc" placeholder="AAAA000000***" type="text">   
+            <input value="{{old('rfc')}}" name="rfc" placeholder="AAAA000000***" type="text">   
             <div class="ui left pointing label" id="mensaje_rfc"> </div>
         </div>
 
 
-        <div class="field">
+        @if($errors->has('domicilio'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
             <label>Domicilio</label>
-            <input name="domicilio" placeholder="Blvd. Centro Sur 120 Queretaro Queretaro" type="text">  
+            <input value="{{old('domicilio')}}"  name="domicilio" placeholder="Blvd. Centro Sur 120 Queretaro Queretaro" type="text">  
         </div>
 
-        <div class="two fields">
-            <div class="field">
+        <div class="two fields ">
+            @if($errors->has('membresia'))
+            <div class="field required error">
+            @else
+            <div class="field required">
+            @endif
                 <label>Membresía</label>
                 <select name="membresia" class="ui selection dropdown" >
                     <option value="">Membresía</option>
-                    <option value="1">Básica</option>
-                    <option value="2">Óptima</option>
-                    <option value="3">Integral</option>
+                    @foreach($membresias as $membresia)
+                        <option value="{{$membresia->id}}">{{$membresia->nombre}}</option>
+                    @endforeach
                 </select>
             </div>
 
-            <div class="field">
+            @if($errors->has('pagos'))
+            <div class="field required error">
+            @else
+            <div class="field required">
+            @endif
                 <label>Plan de Pagos</label>
                 <select name="pagos" class="ui selection dropdown" >
                     <option value="">Forma de Pago </option>
-                    <option value="1">1 pago (-20%)</option>
-                    <option value="2">3 pagos (-10%)</option>
-                    <option value="3">6 pagos</option>
+                    @foreach($pagos as $pago)
+                        <option value="{{$pago->id}}">{{$pago->nombre}}</option>
+                    @endforeach
                 </select>
             </div>
 
@@ -142,24 +182,36 @@
 
         <h4 class="ui dividing header">Anexo de Documentos</h4>
 
-        <div class="field">
+        @if($errors->has('curp_file'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
             <label>CURP o Pasaporte</label>
-            <input type="file" name="curp_file"> 
+            <input value="{{old('curp_file')}}" type="file" name="curp_file"> 
         </div>
 
-        <div class="field">
-            <label>Compronbante de Domicilio</label>
-            <input type="file" name="comprobante"> 
+        @if($errors->has('comprobante'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
+            <label>Comprobante de Domicilio</label>
+            <input value="{{old('comprobante')}}" type="file" name="comprobante"> 
         </div>
 
-        <div class="field">
+        @if($errors->has('rfc_file'))
+        <div class="field required error">
+        @else
+        <div class="field required">
+        @endif
             <label>Cédula de Identificación Fiscal</label>
-            <input type="file" name="rfc_file"> 
+            <input value="{{old('rfc_file')}}" type="file" name="rfc_file"> 
         </div>
 
         
 
-  <div class="ui blue submit button">Submit</div>
+        <input type="submit" class="ui blue submit button"/>
 </form>
 
 
