@@ -42,6 +42,11 @@ class CreateContratosTable extends Migration
             $table->string('num_apariciones')->nullable();
             $table->string('exten_max')->nullable();
             $table->string('caracteres')->nullable();
+            $table->string('ejemplares')->nullable();
+            $table->string('ediciones')->nullable()->default("una primera edición");
+            $table->string('ejemplares_entrega')->nullable();
+            //2.2.12
+            $table->string('paginas')->nullable();
             $table->string('duracion_contrato')->nullable();
             $table->string('fecha_inicio_contrato')->nullable();
             $table->string('fecha_fin_contrato')->nullable();

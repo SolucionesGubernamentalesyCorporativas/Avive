@@ -70,16 +70,22 @@ class ContratoController extends Controller
             $contrato->num_apariciones = "seis";
             $contrato->exten_max ="diez";
             $contrato->caracteres ="13,430";
+            $contrato->ejemplares_entrega = "cuarenta";
+            $contrato->paginas = "finales";
         }else if($request->membresia == 2){
             $contrato->periodo_promo =  "dos meses";
             $contrato->num_apariciones = "doce";
             $contrato->exten_max ="quince";
             $contrato->caracteres ="20,145";
+            $contrato->ejemplares_entrega = "ochenta";
+            $contrato->paginas = "intermedias";
         }else{
             $contrato->periodo_promo =  "tres meses";
             $contrato->num_apariciones = "veinte";
             $contrato->exten_max ="veinte";
             $contrato->caracteres ="26,860";
+            $contrato->ejemplares_entrega = "ciento veinte";
+            $contrato->paginas = "iniciales";
         }
 
         $curp = $request->curp_file->store('public/img');
@@ -519,6 +525,77 @@ class ContratoController extends Controller
 
         PDF::Ln();
         $txt='<b>2.2.5</b>  “AVIVE” podrá determinar la participación de expertos nacionales o internacionales que por su trayectoria den realce a “EL PROYECTO” en todas sus vertientes a pesar de no tener la característica de afiliados en beneficio del impacto de la obra literaria integral resultante y su difusión.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        //-------- INICIO DE HOJA 6 ------
+        PDF::AddPage('P','LETTER');
+
+        //inicio del texto del costado
+        PDF::StartTransform();
+        PDF::SetFont('helvetica', '', 9);
+        PDF::Rotate(-90);
+        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+        PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
+        //fin texto del costado
+
+
+        PDF::Ln();
+        $txt='<b>2.2.6</b> “AVIVE” se asegurará en cualquier caso, que el material impreso o electrónico que contenga la obra que pondrá a su disposición “EL AFILIADO”, siempre conlleve el reconocimiento de su calidad de autor respecto de la obra por él creada, la cual “AVIVE” no podrá bajo ninguna circunstancia deformar, mutilar o modificar.';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.7</b> “EL AFILIADO” conservará para sí los derechos morales y patrimoniales sobre su obra, “AVIVE” sólo está autorizado para incluir la obra de “EL AFILIADO” conjuntamente con los trabajos de los otros expertos afiliados que participarán en “EL PROYECTO” en el material impreso y electrónico que se genere del mismo, teniendo “EL AFILIADO” en todo momento la posibilidad de disponer la publicación de su obra en cualquier otro foro o de autorizar a otros su explotación, en cualquier forma.';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,60, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.8</b> “EL AFILIADO” está de acuerdo y otorga su autorización para que “AVIVE” lleve a cabo la impresión de su obra para los efectos de “EL PROYECTO” conforme a lo establecido en el presente Contrato, en una sola pieza literaria en un número de ';
+        $txt.=$contrato->ejemplares;
+        $txt.=', ejemplares impresos, en ';
+        $txt.='más un sólo archivo electrónico que contendrá la pieza literaria integral.';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,95, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.9</b> “AVIVE” entregará a “EL AFILIADO” ';
+        $txt.=$contrato->ejemplares_entrega;
+        $txt.=' ejemplares impresos de la pieza literaria integral que se conforme con la conjunción de la obra de “EL AFILIADO” y la de los otros expertos afiliados que participarán en “EL PROYECTO”, así como el prólogo y los demás elementos que defina “AVIVE” en favor de la difusión y la generación de interés en “EL PROYECTO”. ';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,125, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.10</b> Las partes reconocen su acuerdo en que los ejemplares de la pieza literaria integral que “AVIVE” entregará a “EL AFILIADO”  constituirán la remuneración que “AVIVE” proporcionará a “EL AFILIADO” como autor y titular de los derechos patrimoniales de la obra que aportó en favor de “EL PROYECTO”.  “EL AFILIADO” podrá comercializar libremente dichos ejemplares.  El equivalente en monetario de dicha remuneración será el resultante de multiplicar el número de ejemplares proporcionados a “EL AFILIADO” por el costo de producción que conforme al numeral siguiente notifique oportunamente “AVIVE” a “EL AFILIADO”.';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,155, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.11</b> “AVIVE” con independencia de los ejemplares que entregará a “EL AFILIADO” en términos y para los efectos a que se refieren los apartados anteriores, pondrá a disposición de “EL AFILIADO” el número de ejemplares que este desee adquirir de la pieza literaria integral correspondiente a ”EL PROYECTO” al costo de su producción sin mediar ganancia alguna para “AVIVE”, sujeto al número de ejemplares de que conste el tiraje correspondiente y a las solicitudes similares que reciba “AVIVE”  de otros afiliados participantes en “EL PROYECTO”.  Para tal efecto “AVIVE” notificará a “EL AFILIADO” dicho costo una vez que se cuente con el material de la pieza literaria integral impreso y previo al evento de lanzamiento a que se refiere el presente contrato.';
+        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,205, true,0,true);
+
+
+        //-------- INICIO DE HOJA 7 ------
+        PDF::AddPage('P','LETTER');
+        //inicio del texto del costado
+        PDF::StartTransform();
+        PDF::SetFont('helvetica', '', 9);
+        PDF::Rotate(-90);
+        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+        PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
+        //fin texto del costado
+
+        PDF::Ln();
+        $txt='<b>2.2.12</b> “AVIVE” en atención a la membresía ';
+        $txt.='<b>'.mb_strtoupper($contrato->membresia->nombre,'UTF-8').'</b>';
+        $txt.=' que adquiere “EL AFILIADO” estará sujeta a lo siguiente:';
+        PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+
+        PDF::Ln();
+        $txt='<b>2.2.12.1</b> La obra de “EL AFILIADO” formará parte de las páginas ';
+        $txt.=$contrato->paginas;
+        $txt.=' de la pieza literaria integral que se conforme con la conjunción de la obra de “EL AFILIADO” y la de los otros expertos afiliados que participarán en “EL PROYECTO” en los términos del presente Contrato';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.12.2</b> “AVIVE” tomará el criterio primero en tiempo primero en orden de integración para determinar entre afiliados que adquieran el mismo tipo de membresía para efectos de “EL PROYECTO”, la secuencia en que se presentarán sus respectivas obras en la pieza literaria integral resultante.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
 
