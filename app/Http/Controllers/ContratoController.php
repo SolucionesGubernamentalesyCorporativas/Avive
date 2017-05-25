@@ -68,12 +68,18 @@ class ContratoController extends Controller
         if($request->membresia ==1){
             $contrato->periodo_promo =  "un mes";
             $contrato->num_apariciones = "seis";
+            $contrato->exten_max ="diez";
+            $contrato->caracteres ="13,430";
         }else if($request->membresia == 2){
             $contrato->periodo_promo =  "dos meses";
             $contrato->num_apariciones = "doce";
+            $contrato->exten_max ="quince";
+            $contrato->caracteres ="20,145";
         }else{
             $contrato->periodo_promo =  "tres meses";
             $contrato->num_apariciones = "veinte";
+            $contrato->exten_max ="veinte";
+            $contrato->caracteres ="26,860";
         }
 
         $curp = $request->curp_file->store('public/img');
@@ -261,10 +267,10 @@ class ContratoController extends Controller
         PDF::Rotate(-90);
         PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
         PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
         //fin texto del costado
 
         PDF::Ln();
-        PDF::SetFont('helvetica', '', 12);
         $txt='<b>I.5</b> Que como parte de su modelo de servicios ha desarrollado estrategias enfocadas a promover la incursión de expertos en diversos temas de interés para la sociedad, en múltiples sectores y organizaciones bajo una participación y coordinación colectiva que redunda favorablemente en la reputación y prestigio de cada uno de los participantes.';
         PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
 
@@ -326,6 +332,7 @@ class ContratoController extends Controller
         PDF::Rotate(-90);
         PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
         PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
         //fin texto del costado
 
         PDF::Ln();
@@ -387,7 +394,7 @@ class ContratoController extends Controller
 
 
 
-        //-------- INICIO DE HOJA 3 ------
+        //-------- INICIO DE HOJA 4 ------
         PDF::AddPage('P','LETTER');
 
         //inicio del texto del costado
@@ -396,6 +403,7 @@ class ContratoController extends Controller
         PDF::Rotate(-90);
         PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
         PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
         //fin texto del costado
 
 
@@ -443,6 +451,75 @@ class ContratoController extends Controller
         $txt.=' ocasiones en total y siempre que se encuentre vigente su Membresía.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+
+        if($contrato->membresia->id ==1){
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::Ln();
+            PDF::writeHTML( "2.1.4 No contiene servicios de Video Prólogo", true, 0, true, false, 'j');
+        }else{
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::Ln();
+            PDF::writeHTML( "2.1.4 Video Prólogo:", true, 0, true, false, 'j');
+
+            PDF::SetFont('helvetica', '', 12);
+            PDF::Ln();
+            $txt='<b>2.1.4.1</b> “AVIVE” producirá un video con una duración mínima de tres minutos, que tendrá como personaje central a “EL AFILIADO”, con un propósito introductorio o complementario a la participación que presente “EL AFILIADO” para efecto de “EL PROYECTO” y siempre acorde con su temática.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        }
+
+
+
+        //-------- INICIO DE HOJA 5 ------
+        PDF::AddPage('P','LETTER');
+
+        //inicio del texto del costado
+        PDF::StartTransform();
+        PDF::SetFont('helvetica', '', 9);
+        PDF::Rotate(-90);
+        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+        PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
+        //fin texto del costado
+
+        if($contrato->membresia->id !=1){
+            PDF::Ln();
+            $txt='<b>2.1.4.2</b> “AVIVE” se asegurará de que el Video Prólogo que produzca para “EL AFILIADO” sea accesible tanto en la plataforma que el propio “AVIVE” establezca en Internet específicamente para difusión de “EL PROYECTO”, como mediante la versión impresa del  trabajo que ponga a su disposición “EL AFILIADO” para su integración en la obra literaria integral, para lo cual “AVIVE” proporcionará a “EL AFILIADO” un servicio de realidad aumentada.';
+            PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::Ln();
+            PDF::MultiCell(170, 3,"2.2 MATERIAL IMPRESO", 0, 'J', 0, 2, 17 ,70, true,0,true);
+            
+        }else{
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::Ln();
+            PDF::MultiCell(170, 3,"2.2 MATERIAL IMPRESO", 0, 'J', 0, 2, 17 ,35, true,0,true);
+        }
+
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>2.2.1</b> “EL AFILIADO” proporcionará a “AVIVE” un texto de su autoría respecto de cuya obra “EL AFILIADO” goce de las prerrogativas y privilegios que la ley en materia de Derecho de Autor identifica como derechos moral y patrimonial cuyo objetivo será que “AVIVE” integre como colaboración conjunta con los otros trabajos que de manera similar aporten otros afiliados que participen como expertos en “EL PROYECTO”.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.2</b>  El texto de la obra proporcionada por “EL AFILIADO” para los efectos de difusión y promoción que asume “AVIVE” como parte de la prestación de sus servicios, podrá contar con una extensión máxima de ';
+        $txt.=$contrato->exten_max;
+        $txt.=' cuartillas o ';
+        $txt.=$contrato->caracteres;
+        $txt.=' caracteres, escritos en formato Word, con letra Arial número 12, a doble espacio y con un margen superior, inferior, derecho e izquierdo de 2.5 centímetros.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.3</b> “AVIVE” integrará en un sólo ejemplar impreso tanto la obra que le proporcione “EL AFILIADO” como la que aporten otros afiliados que participen como expertos en “EL PROYECTO”, por lo que en ningún caso “AVIVE” efectuará impresiones aisladas de la obra de “EL AFILIADO” pues es el conjunto de dichas obras las que de manera integral se promocionarán como material especializado en la temática que aborda “EL PROYECTO”.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.4</b>  “EL AFILIADO” con la entrega de su obra a “AVIVE”  para los efectos a que se refiere el presente Contrato, le autoriza su divulgación de forma conjunta con los trabajos de los otros expertos afiliados que participarán en “EL PROYECTO”, así como su utilización en el contexto de la publicidad o acción  asociada a cualesquiera de los servicios de difusión que en particular “AVIVE” ofrezca a “EL AFILIADO” por virtud del presente Contrato.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.5</b>  “AVIVE” podrá determinar la participación de expertos nacionales o internacionales que por su trayectoria den realce a “EL PROYECTO” en todas sus vertientes a pesar de no tener la característica de afiliados en beneficio del impacto de la obra literaria integral resultante y su difusión.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
 
         //linea de render del PDF
