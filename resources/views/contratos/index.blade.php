@@ -83,7 +83,7 @@
                 <div class="four wide field required">
                 @endif
                     <label>Edad</label>
-                    <input value="{{old('edad')}}" type="number" name="edad" placeholder="33">
+                    <input value="{{old('edad')}}" type="text" name="edad" placeholder="TREINTA">
                 </div>
             </div>
         </div>

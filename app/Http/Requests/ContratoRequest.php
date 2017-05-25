@@ -26,7 +26,7 @@ class ContratoRequest extends FormRequest
         return [
             //
             'nombre'=>'required|min:3',
-            'edad'=>'required|integer',
+            'edad'=>'required',
             'email'=> 'required|email',
             'nacionalidad' =>'required',
             'rfc'=> 'required',
@@ -47,7 +47,6 @@ class ContratoRequest extends FormRequest
             'nombre.required' => 'Se requiere de un nombre para registrar la contratación.',
             'nombre.min'  => 'El nombre escrito es demasiado corto.',
             'edad.required' => 'La edad es necesaria.',
-            'edad.integer' => 'La edad debe de ser numérica.',
             'email.required' => 'El correo electrónico es un campo necesario.',
             'email.email' => 'La dirección insertada no es valida.',
             'nacionalidad.required' => 'La nacionalidad es un campo necesario.',

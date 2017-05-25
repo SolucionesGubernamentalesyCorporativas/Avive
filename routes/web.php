@@ -17,3 +17,4 @@ Route::get('/', function () {
 
 
 Route::resource('contratos', 'ContratoController');
+Route::get('prueba/{id}','ContratoController@muestraPDF');
