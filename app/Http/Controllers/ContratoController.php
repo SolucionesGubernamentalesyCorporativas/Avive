@@ -72,6 +72,8 @@ class ContratoController extends Controller
             $contrato->caracteres ="13,430";
             $contrato->ejemplares_entrega = "cuarenta";
             $contrato->paginas = "finales";
+            $contrato->incluira_en = "diez";
+            $contrato->invitaciones = "cinco";
         }else if($request->membresia == 2){
             $contrato->periodo_promo =  "dos meses";
             $contrato->num_apariciones = "doce";
@@ -79,6 +81,8 @@ class ContratoController extends Controller
             $contrato->caracteres ="20,145";
             $contrato->ejemplares_entrega = "ochenta";
             $contrato->paginas = "intermedias";
+            $contrato->incluira_en = "quince";
+            $contrato->invitaciones = "diez";
         }else{
             $contrato->periodo_promo =  "tres meses";
             $contrato->num_apariciones = "veinte";
@@ -86,6 +90,8 @@ class ContratoController extends Controller
             $contrato->caracteres ="26,860";
             $contrato->ejemplares_entrega = "ciento veinte";
             $contrato->paginas = "iniciales";
+            $contrato->incluira_en = "veinte";
+            $contrato->invitaciones = "veinte";
         }
 
         $curp = $request->curp_file->store('public/img');
@@ -597,6 +603,101 @@ class ContratoController extends Controller
         PDF::Ln();
         $txt='<b>2.2.12.2</b> “AVIVE” tomará el criterio primero en tiempo primero en orden de integración para determinar entre afiliados que adquieran el mismo tipo de membresía para efectos de “EL PROYECTO”, la secuencia en que se presentarán sus respectivas obras en la pieza literaria integral resultante.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='Conforme a este parámetro la fecha y hora  de liquidación de la membresía a “AVIVE” que aparezca en su estado de cuenta determinará la secuencia correspondiente.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.12.3</b> La obra de “EL AFILIADO” se incluirá en al menos ';
+        $txt.=$contrato->incluira_en;
+        $txt.=' páginas de la pieza literaria integral resultante.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.12.4</b> El nombre de “EL AFILIADO”';
+        if($contrato->membresia->id !=3 ){
+            $txt.=' no aparecerá en la portada.';
+        }else{
+            $txt.=' deberá aparecer en la portada.';
+        }
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.2.12.5</b> La fotografía de “EL AFILIADO”';
+        if($contrato->membresia->id !=3 ){
+            $txt.=' no aparecerá en la segunda de forros.';
+        }else{
+            $txt.=' deberá aparecer en la segunda de forros.';
+        }
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "2.3 SERVICIO DE REALIDAD AUMENTADA", true, 0, true, false, 'j');
+        if($contrato->membresia->id ==1){
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::Ln();
+            PDF::writeHTML( "2.3.1 No incorpora servicios de realidad aumentada", true, 0, true, false, 'j');
+                        
+            
+
+        }else{
+            PDF::SetFont('helvetica', '', 12);
+            PDF::Ln();
+            $txt='<b>2.3.1</b> “AVIVE” brindará a “EL AFILIADO” un servicio de realidad aumentada durante la vigencia de su membresía  que permitirá a quienes tengan acceso a la pieza literaria integral que se conforme, el acceder a través de la aplicación indicada en el propio texto impreso y mediante el uso de la imagen determinada en cada caso, al Video Prólogo producido para ”EL AFILIADO” en los términos establecidos en el presente Contrato.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+            PDF::Ln();
+            $txt='<b>2.3.2</b>  Será responsabilidad de los usuarios contar con la aplicación y el equipo para su instalación a efecto de poder hacer uso del servicio de realidad aumentada.  En todo caso la aplicación correspondiente será de uso gratuito y deberá estar disponible para servicios IOS y ANDROID';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+           
+
+        }
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "2.4 VERSIÓN ELECTRÓNICA DE LA PIEZA LITERARIA ", true, 0, true, false, 'j');
+
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='“AVIVE” proporcionará un archivo en formato electrónico a “EL AFILIADO” que contenga una versión de la compilación de material aportado por él y por los expertos participantes en “EL PROYECTO”';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        //-------- INICIO DE HOJA 8 ------
+        PDF::AddPage('P','LETTER');
+        //inicio del texto del costado
+        PDF::StartTransform();
+        PDF::SetFont('helvetica', '', 9);
+        PDF::Rotate(-90);
+        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+        PDF::StopTransform();
+        PDF::SetFont('helvetica', '', 12);
+        //fin texto del costado
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::MultiCell(170, 2,"2.5 LANZAMIENTO ", 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::Ln();
+        PDF::writeHTML( "2.5.1 Evento de Lanzamiento", true, 0, true, false, 'j');
+
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>2.5.1.1</b> “AVIVE” coordinará un evento a desarrollarse en la fecha que determine y en las instalaciones acondicionadas para recibir a los expertos participantes en “EL PROYECTO”, a sus invitados en atención al número que de los mismos corresponda a su membresía, y a personas de los medios de comunicación, todo ello a efecto de dar a conocer los aspectos destacados de “EL PROYECTO” y presentar la pieza literaria integral que se conforme con las obras aportadas por todos los expertos afiliados en términos de lo señalado en el presente contrato.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.5.1.2</b> “EL AFILIADO” recibirá de “AVIVE” ';
+        $txt.=$contrato->invitaciones;
+        $txt.=' invitaciones digitales que podrá distribuir entre igual número de personas para que asistan como sus invitados al evento referido en el punto anterior.  “AVIVE” reservará bajo relación de “EL AFILIADO” los nombres de sus asistentes, asegurando  su acceso al foro donde se desarrolle el evento indicado.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        
+
+        
 
 
         //linea de render del PDF

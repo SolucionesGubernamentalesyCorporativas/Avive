@@ -47,6 +47,10 @@ class CreateContratosTable extends Migration
             $table->string('ejemplares_entrega')->nullable();
             //2.2.12
             $table->string('paginas')->nullable();
+            //2.2.12.3
+            $table->string('incluira_en')->nullable();
+            //2.5.1.2
+            $table->string('invitaciones')->nullable();
             $table->string('duracion_contrato')->nullable();
             $table->string('fecha_inicio_contrato')->nullable();
             $table->string('fecha_fin_contrato')->nullable();
