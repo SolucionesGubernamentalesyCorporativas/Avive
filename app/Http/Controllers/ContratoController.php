@@ -83,6 +83,7 @@ class ContratoController extends Controller
             $contrato->paginas = "intermedias";
             $contrato->incluira_en = "quince";
             $contrato->invitaciones = "diez";
+            $contrato->tiempo_podio="cinco";
         }else{
             $contrato->periodo_promo =  "tres meses";
             $contrato->num_apariciones = "veinte";
@@ -92,6 +93,7 @@ class ContratoController extends Controller
             $contrato->paginas = "iniciales";
             $contrato->incluira_en = "veinte";
             $contrato->invitaciones = "veinte";
+            $contrato->tiempo_podio="diez";
         }
 
         $curp = $request->curp_file->store('public/img');
@@ -693,6 +695,191 @@ class ContratoController extends Controller
         $txt.=$contrato->invitaciones;
         $txt.=' invitaciones digitales que podrá distribuir entre igual número de personas para que asistan como sus invitados al evento referido en el punto anterior.  “AVIVE” reservará bajo relación de “EL AFILIADO” los nombres de sus asistentes, asegurando  su acceso al foro donde se desarrolle el evento indicado.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.5.1.3</b> La logística del Evento que aplicará “AVIVE” dará prioridad en cercanía a la ubicación del podium a los invitados de afiliados con membresía Integral, seguidos de aquellos que correspondan a las membresías óptima y básica, en ese orden.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.5.1.4</b> “AVIVE” tomará el criterio primero en tiempo primero en ubicación para determinar entre afiliados que adquieran el mismo tipo de membresía, el orden en que serán colocados sus invitados.  Conforme a este parámetro la fecha y hora  de liquidación de la membresía a “AVIVE” que aparezca en su estado de cuenta determinará el orden correspondiente.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>2.5.1.5</b> “AVIVE” podrá invitar a participar en el evento de lanzamiento  a expertos nacionales o internacionales que por su trayectoria den realce a “EL PROYECTO” a pesar de no tener la característica de afiliados.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "2.5.2 Video de Lanzamiento", true, 0, true, false, 'J');
+        if($contrato->membresia->id==1){
+            PDF::Ln();
+            PDF::writeHTML( "2.5.2.1 No se contempla para Membresía Básica ", true, 0, true, false, 'J');
+            PDF::Ln();
+            PDF::writeHTML( "2.5.3 Tiempo en Podium", true, 0, true, false, 'J');
+            PDF::Ln();
+            PDF::writeHTML( "2.5.3.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
+            
+        }else{
+            PDF::SetFont('helvetica', '', 12);
+            PDF::Ln();
+            $txt='<b>2.5.2.1 </b>“AVIVE” producirá un video de lanzamiento con una duración mínima de dos minutos, que abordará la temática de “EL PROYECTO” y en el cual se efectuará la mención de los nombres de los afiliados con Membresías Óptima e Integral.  Dicho video estará disponible con posterioridad a la realización del evento de Lanzamiento, en el sitio especializado que “AVIVE” establezca en Internet específicamente para difusión de “EL PROYECTO” y a través del enlace que se integre por conducto de las plataformas de redes sociales que utilizará “AVIVE” en los términos que se precisan en el presente Contrato.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+            //-------- INICIO DE HOJA 9 ------
+            PDF::AddPage('P','LETTER');
+            //inicio del texto del costado
+            PDF::StartTransform();
+            PDF::SetFont('helvetica', '', 9);
+            PDF::Rotate(-90);
+            PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+            PDF::StopTransform();
+            PDF::SetFont('helvetica', '', 12);
+            //fin texto del costado
+
+            PDF::Ln();
+            $txt='<b>2.5.2.2</b>  “AVIVE” tomará el criterio primero en tiempo primero en orden de mención para determinar entre afiliados que adquieran el mismo tipo de membresía, el orden de mención su nombre en el Video de lanzamiento.  Conforme a este parámetro la fecha y hora  de liquidación de la membresía a “AVIVE” que aparezca en su estado de cuenta determinará la secuencia correspondiente.';
+            PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+            
+            
+        }
+        
+
+
+        if($contrato->membresia->id == 1){
+                //-------- INICIO DE HOJA 9 ------
+                PDF::AddPage('P','LETTER');
+                //inicio del texto del costado
+                PDF::StartTransform();
+                PDF::SetFont('helvetica', '', 9);
+                PDF::Rotate(-90);
+                PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+                PDF::StopTransform();
+                PDF::SetFont('helvetica', '', 12);
+                //fin texto del costado
+
+                PDF::SetFont('helvetica', 'B', 12);
+                PDF::Ln();
+                PDF::MultiCell(170, 2,"2.5.4 Presencia en Material Visual el día del Evento ", 0, 'J', 0, 2, 17 ,35, true,0,true);
+                PDF::Ln();
+                PDF::writeHTML( "2.5.4.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
+
+                PDF::Ln();
+                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
+
+                PDF::SetFont('helvetica', '', 12);
+                PDF::Ln();
+                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+                PDF::Ln();
+                $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                
+                PDF::SetFont('helvetica', 'B', 12);
+                PDF::Ln();
+                PDF::writeHTML( "COMPROMISOS A CARGO DE “EL AFILIADO", true, 0, true, false, 'J');
+
+                PDF::SetFont('helvetica', '', 12);
+                PDF::Ln();
+                $txt='<b>TERCERA.-</b> "EL AFILIADO" mediante la suscripción del presente Contrato reconoce que la definición de las estrategias que coordinará “AVIVE” implican asegurar la participación de cada uno de los expertos que intervienen en “EL PROYECTO” en este sentido acepta que su integración al mismo a través de la membresía que adquiere, conlleva asegurar para “AVIVE” y para el resto de los afiliados el asumir una conducta ética responsable, por lo cual se compromete:';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        }else{
+            PDF::SetFont('helvetica', 'B', 12);
+            PDF::writeHTML( "2.5.3 Tiempo en Podium ", true, 0, true, false, 'J');
+
+            PDF::SetFont('helvetica', '', 12);
+            PDF::Ln();
+            $txt='<b>2.5.3.1</b> “AVIVE” coordinará la logística del evento de lanzamiento considerando la intervención presencial que en el mismo deberán tener los afiliados que participen en “EL PROYECTO” y cuenten con Membresías Óptima e Integral. Salvo caso fortuito o de fuerza mayor que impida a “EL AFILIADO” participar en la fecha y hora programada para ello, “AVIVE” aplicará los medios a su alcance para preservar su intervención en términos óptimos.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+            PDF::Ln();
+            $txt='<b>2.5.3.2</b> “EL AFILIADO” contará con un tiempo de ';
+            $txt.=$contrato->tiempo_podio;
+            $txt.=' minutos para hacer su intervención presencial el día del evento de Lanzamiento desde el Podium.  El orden de la intervención de “EL AFILIADO” será definido por “AVIVE” aplicando el mismo criterio señalado en el apartado referente al video de lanzamiento.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+            PDF::SetFont('helvetica', 'B', 12);
+            
+            if($contrato->membresia->id == 2){
+                PDF::Ln();
+                PDF::writeHTML( "2.5.4 Presencia en Material Visual el día del Evento ", true, 0, true, false, 'J');
+                //PDF::MultiCell(170, 2,"2.5.4 Presencia en Material Visual el día del Evento ", 0, 'J', 0, 2, 17 ,55, true,0,true);
+                PDF::Ln();
+                PDF::writeHTML( "2.5.4.1 No se contempla para Membresía Óptima", true, 0, true, false, 'J');
+                PDF::Ln();
+                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
+
+                PDF::SetFont('helvetica', '', 12);
+                PDF::Ln();
+                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+                PDF::Ln();
+                $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+                
+
+            }else{
+                PDF::Ln();
+                PDF::writeHTML( "2.5.4 Presencia en Material Visual el día del Evento ", true, 0, true, false, 'J');
+
+                PDF::SetFont('helvetica', '', 12);
+                PDF::Ln();
+                $txt='“AVIVE” utilizará el día del evento de Lanzamiento un caballete donde se colocará una imagen de “EL AFILIADO” con su nombre y algún otro dato que estime conveniente “AVIVE” vinculado a “EL PROYECTO”.  La imagen estará contenida en una de pieza de material sólido cuyas dimensiones no serán  inferiores a los 40 cm de un lado por 35 cm del otro.  El orden de colocación de los caballetes en caso de existir más de un afiliado con membresía Integral, será definido por “AVIVE” aplicando el mismo criterio de orden establecido en el apartado referente al video de lanzamiento.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+                
+                PDF::SetFont('helvetica', 'B', 12);
+                PDF::Ln();
+                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
+
+                PDF::SetFont('helvetica', '', 12);
+                PDF::Ln();
+                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
+                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+                
+
+            }
+
+
+            //-------- INICIO DE HOJA 10 ------
+                PDF::AddPage('P','LETTER');
+                //inicio del texto del costado
+                PDF::StartTransform();
+                PDF::SetFont('helvetica', '', 9);
+                PDF::Rotate(-90);
+                PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
+                PDF::StopTransform();
+                PDF::SetFont('helvetica', '', 12);
+                //fin texto del costado
+
+                if($contrato->membresia->id == 2){
+                    PDF::SetFont('helvetica', 'B', 12);
+                    PDF::Ln();
+                    PDF::MultiCell(170, 2,"COMPROMISOS A CARGO DE “EL AFILIADO", 0, 'J', 0, 2, 17 ,35, true,0,true);                
+                }else{
+                    PDF::Ln();
+                    $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
+                    PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+
+                    PDF::SetFont('helvetica', 'B', 12);
+                    PDF::Ln();
+                    PDF::MultiCell(170, 2,"COMPROMISOS A CARGO DE “EL AFILIADO", 0, 'J', 0, 2, 17 ,75, true,0,true);
+                }
+
+
+
+            
+        }
+        
+
+
+
+        
 
 
         
