@@ -66,11 +66,14 @@ class ContratoController extends Controller
         $contrato->pago()->associate($pago); 
 
         if($request->membresia ==1){
-            $contrato->periodo_promo =  " un mes ";
+            $contrato->periodo_promo =  "un mes";
+            $contrato->num_apariciones = "seis";
         }else if($request->membresia == 2){
-            $contrato->periodo_promo =  " dos meses ";
+            $contrato->periodo_promo =  "dos meses";
+            $contrato->num_apariciones = "doce";
         }else{
-            $contrato->periodo_promo =  " tres meses ";
+            $contrato->periodo_promo =  "tres meses";
+            $contrato->num_apariciones = "veinte";
         }
 
         $curp = $request->curp_file->store('public/img');
@@ -409,6 +412,38 @@ class ContratoController extends Controller
         PDF::Ln();
         $txt='Incorporación en el Directorio que “AVIVE” generará para la identificación de los participantes expertos en “EL PROYECTO”, mismo que contendrá al menos los datos de “EL AFILIADO” siguientes: nombre, fotografía, enlace a su página en Internet, de existir ésta, e información de contacto. ';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "2.1.2 Promoción en Sitio WEB:", true, 0, true, false, 'j');
+
+        PDF::Ln();
+        PDF::SetFont('helvetica', '', 12);
+        $txt='Dentro del sitio especializado que “AVIVE” establezca en Internet específicamente para difusión de “EL PROYECTO” se contendrá un formato publicitario (banner) a través del cual “AVIVE” difundirá los servicios que ofrezca “EL AFILIADO”, que no sean inconsistentes con “EL PROYECTO”, al menos por un periodo de ';
+        $txt.=$contrato->periodo_promo;
+        $txt.=' calendario durante la vigencia de su Membresía.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "2.1.3 Publicación en Redes Sociales:", true, 0, true, false, 'j');
+
+        PDF::Ln();
+        PDF::SetFont('helvetica', '', 12);
+        $txt='<b>2.1.3.1</b> “AVIVE” difundirá, al menos a través de las plataformas de Facebook, Twitter y Linkedin que serán utilizadas para dar a conocer “EL PROYECTO”, información sobre “EL AFILIADO” y su participación en la temática del mismo, así como los servicios que ofrezca o aquellos anuncios que vinculados a su ejercicio profesional o actividad empresarial sean presentados a “AVIVE” por “EL AFILIADO” siempre que no sean inconsistentes con “EL PROYECTO”.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt= '<b>2.1.3.2</b> “AVIVE” comunicará a “EL AFILIADO” las razones por las cuales no sea factible difundir un anuncio que este solicite a través de los perfiles que “AVIVE” genere y administre en las redes sociales indicadas en el punto anterior';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt = '<b>2.1.3.3 </b>“AVIVE” difundirá simultáneamente en las plataformas indicadas, los anuncios que le solicite “EL AFILIADO” que cumplan con lo señalado en los dos puntos anteriores hasta ';
+        $txt.= $contrato->num_apariciones;
+        $txt.=' ocasiones en total y siempre que se encuentre vigente su Membresía.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
 
         //linea de render del PDF
         PDF::Output('prueba -.pdf');

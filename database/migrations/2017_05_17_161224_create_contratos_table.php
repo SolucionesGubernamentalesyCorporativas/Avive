@@ -39,7 +39,7 @@ class CreateContratosTable extends Migration
             $table->string('nombre_proyecto')->nullable()->default("HAPPINESS AT WORK");
             $table->integer('participantes')->nullable();
             $table->string('periodo_promo')->nullable();
-            $table->integer('num_apariciones')->nullable();
+            $table->string('num_apariciones')->nullable();
             $table->string('exten_max')->nullable();
             $table->string('caracteres')->nullable();
             $table->string('duracion_contrato')->nullable();
