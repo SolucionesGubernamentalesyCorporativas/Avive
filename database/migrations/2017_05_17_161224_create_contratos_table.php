@@ -16,7 +16,7 @@ class CreateContratosTable extends Migration
         Schema::create('contratos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre_afiliado');
-            $table->string('curp_afiliado');
+            $table->string('curp_afiliado')->nullable();
             $table->string('edad_afiliado');
             $table->string('domicilio_afiliado');
             $table->string('rfc_afiliado');

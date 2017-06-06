@@ -64,6 +64,7 @@
 
     <form method="POST" action="{{action('ContratoController@store')}}" class="ui form attached fluid segment" enctype="multipart/form-data">
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <input type="hidden" name="membresia" id="membresia" value="{{$membresia}}">
         <!-- INICIA INFO PERSONAL -->
 
         <h4 class="ui dividing header">Información Personal</h4>
@@ -147,18 +148,17 @@
         </div>
 
         <div class="two fields ">
-            @if($errors->has('membresia'))
-            <div class="field required error">
-            @else
-            <div class="field required">
-            @endif
+           
+            <div class="field">
                 <label>Membresía</label>
-                <select name="membresia" class="ui selection dropdown" >
-                    <option value="">Membresía</option>
-                    @foreach($membresias as $membresia)
-                        <option value="{{$membresia->id}}">{{$membresia->nombre}}</option>
-                    @endforeach
-                </select>
+                @if($membresia==1)
+                    Básica
+                @elseif($membresia==2)
+                    Óptima
+                @elseif($membresia==3)
+                    Integral
+                @endif
+
             </div>
 
             @if($errors->has('pagos'))

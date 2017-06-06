@@ -26,6 +26,16 @@ class ContratoController extends Controller
                                       ->with('pagos',$pagos);
     }
 
+    public function membresia(){
+        return view('contratos.seleccion');
+    }
+
+    public function seleccionaMembresia(Request $request){
+        $membresia = $request->membresia;
+        $pagos = Pago::all();
+        return view('contratos.index')->with('pagos',$pagos)
+                                      ->with('membresia',$membresia);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -44,7 +54,7 @@ class ContratoController extends Controller
      */
     public function store(ContratoRequest $request)
     {
-        //
+        //dd($request);
         $pago = Pago::find($request->pagos);
         $membresia = Membresia::find($request->membresia);
 
@@ -158,10 +168,171 @@ class ContratoController extends Controller
     }
 
 
+
+    public function ultimoDiaMes($string){
+        $fecha=date_create($string);
+
+        return date_format($fecha, 't/m/Y');
+    }
+
+
+    public function tresPagos($string){
+        $fecha=date_create($string);
+
+        $pagos = array();
+
+        $fecha->modify('+3 day');
+
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+        //primer pago 
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+        
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+        return $pagos;
+
+    }
+
+    public function seisPagos($string){
+        $fecha=date_create($string);
+
+        $pagos = array();
+
+        $fecha->modify('+3 day');
+
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+        //primer pago 
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+        
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+        //segundo
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+        $aux = strtotime(date_format($fecha, 'Y-m-d'));
+        $segundo = date('Y-m-d', strtotime('+1 month', $aux));
+        //dd($segundo);
+        $fecha=date_create($segundo);
+        while($this->esFestivo($fecha)){
+            $fecha->modify('+1 day');
+        }
+
+        array_push($pagos , date_format($fecha, 'j/m/Y'));
+
+        return $pagos;
+
+    }
+
+
+
+
+    public function esFestivo($time){
+        
+        //dd($time);
+        // $dias_festivos[año][mes] = [dias festivos];
+        $dias_festivos = array(
+            "2017"=>array(2 => [6],
+                          3 =>[20],
+                          4 => [12,13,14],
+                          5 => [1,5],
+                          7 => [17,18,19,20,21,24,25,26,27,28,31],
+                          8 => [25],
+                          9 => [15],
+                          10 =>[12],
+                          11 =>[1,2,20],
+                          12 =>[15,18,19,20,21,22,25,26,27,28,29]),
+            "2018"=>array(1 =>[1])
+        );
+        $dias_saltados = array(0,6); // 0: domingo, 1: lunes... 6:sabado
+        $w = date_format($time, 'w'); // dia de la semana en formato 0-6
+
+        if(in_array($w, $dias_saltados)){
+            //return "true".date_format($time, 'Y-m-d');
+            return true;
+        } 
+
+        $j = date_format($time, 'j'); // dia en formato 1 - 31
+        $n = date_format($time, 'n'); // mes en formato 1 - 12
+        $y = date_format($time, 'Y'); // año en formato XXXX
+
+
+        if(isset($dias_festivos[$y]) && isset($dias_festivos[$y][$n]) && in_array($j,$dias_festivos[$y][$n])){
+            //$time->modify('+1 day');
+            //return "si".date_format($time, 'Y-m-d');;
+            return true;
+        } 
+
+        return false;
+    }
+
+
+
     public function muestraPDF($id){
         $contrato = Contrato::find($id);
         $this->generarPDF($contrato);
     }
+
     public function generarPDF($contrato){
 
         
@@ -205,15 +376,7 @@ class ContratoController extends Controller
         PDF::startPageGroup();
 
 
-        //para pasar a letra los numeros 
-        $meses = array('Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio', 'Agosto','Septiembre','Octubre','Noviembre','Diciembre');
-        $dias = array('Primero', 'Dos','Tres', 'Cuarto',
-                    'Cinco','Seis','Siete','Ocho',
-                    'Nueve', 'Diez', 'Once','Doce', 'Trece',
-                    'Catorce', 'Quince','Dieciséis', 'Diecisiete' , 'Dieciocho',
-                    'Diecinueve', 'Veinte', 'Veintiuno', 'Veintidos', 'Veititres',
-                    'Veiticuatro', 'Veiticinco', 'Veintiséis', 'Veintisiete', 'Veintiocho',
-                    'Veintinueve', 'Treinta', 'Treintaiuno');
+        
 
 
 
@@ -846,6 +1009,28 @@ class ContratoController extends Controller
                 $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 25,000.00 (Veinticinco Mil Pesos 00/100 MN).';
                 PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+                if($contrato->pago->id == 1){
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 20% por efectuar el pago en una sola exhibición por lo que el monto a pagar será de $20,000.00 (Veinte Mil Pesos 00/100 MN) más IVA para un MONTO TOTAL de $23,200.00 (Veintitrés Mil Doscientos Pesos 00/100 MN) pagaderos a más tardar el día ';
+                    $txt.=$this->ultimoDiaMes($contrato->created_at);
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                }elseif($contrato->pago->id ==2){
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 10% por efectuar el pago en tres parcialidades por lo que el monto a pagar será de $22,500.00 (Veintidós mil Quinientos Pesos 00/100 MN) más IVA para un total de  $26,100.00 (Veintiséis mil Cien Pesos 00/100 MN) pagaderos en tres pagos mensuales de $8,700.00 (Ocho Mil Setecientos Pesos 00/100 MN) IVA incluido  pagaderos a más tardar los días ';
+                    $fechas = $this->tresPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].'.' ;
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                    
+                }else{
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” seis mensualidades sin intereses por lo que el monto a pagar será de $25,002.00 (Veinticinco mil Dos Pesos 00/100 MN) más IVA para un total de  $29,002.40 (Veintinueve Mil Dos Pesos 40/100 MN)] liquidable en seis pagos mensuales de $4,833.80 (Cuatro Mil Ochocientos Treinta y Tres Pesos 80/100 MN)  pagaderos a más tardar los días ';
+                    $fechas = $this->seisPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].', '.$fechas[3].', '.$fechas[4].', '.$fechas[5].'.' ;
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                }
+
+                
+
 
         }else{//casos en comun de la 2 y 3 
             PDF::SetFont('helvetica', 'B', 12);
@@ -972,6 +1157,10 @@ class ContratoController extends Controller
                     $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 50,000.00 (Cincuenta Mil Pesos 00/100 MN).';
                     PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+                    if($contrato->pago->id == 1){
+
+                    }
+
 
 
                 }else{ //caso de la membresia 3
@@ -1061,55 +1250,7 @@ class ContratoController extends Controller
 
     }
 
-    public function creadorFecha($string){
-        $fecha=date_create($string);
-        
-        while($this->esFestivo($fecha)){
-            $fecha->modify('+1 day');
-        }
-        return date_format($fecha, 'Y-m-d');
-
-    }
-
-    public function esFestivo($time){
-        
-        //dd($time);
-        // $dias_festivos[año][mes] = [dias festivos];
-        $dias_festivos = array(
-            "2017"=>array(2 => [6],
-                          3 =>[20],
-                          4 => [12,13,14],
-                          5 => [1,5],
-                          7 => [17,18,19,20,21,24,25,26,27,28,31],
-                          8 => [25],
-                          9 => [15],
-                          10 =>[12],
-                          11 =>[1,2,20],
-                          12 =>[15,18,19,20,21,22,25,26,27,28,29]),
-            "2018"=>array(1 =>[1])
-        );
-        $dias_saltados = array(0,6); // 0: domingo, 1: lunes... 6:sabado
-        $w = date_format($time, 'w'); // dia de la semana en formato 0-6
-
-        if(in_array($w, $dias_saltados)){
-            //return "true".date_format($time, 'Y-m-d');
-            return true;
-        } 
-
-        $j = date_format($time, 'j'); // dia en formato 1 - 31
-        $n = date_format($time, 'n'); // mes en formato 1 - 12
-        $y = date_format($time, 'Y'); // año en formato XXXX
-
-
-        if(isset($dias_festivos[$y]) && isset($dias_festivos[$y][$n]) && in_array($j,$dias_festivos[$y][$n])){
-            //$time->modify('+1 day');
-            //return "si".date_format($time, 'Y-m-d');;
-            return true;
-        } 
-
-        return false;
-    }
-
+    
 
 
 }

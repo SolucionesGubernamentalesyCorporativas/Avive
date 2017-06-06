@@ -17,6 +17,8 @@ Route::get('/', function () {
 
 
 Route::resource('contratos', 'ContratoController');
+Route::any('seleccionaMembresia','ContratoController@seleccionaMembresia');
+Route::get('membresia','ContratoController@membresia');
 Route::get('prueba/{id}','ContratoController@muestraPDF');
 
-Route::get('dia/{fecha}','ContratoController@creadorFecha');
+Route::get('dia/{fecha}','ContratoController@tresPagos');
