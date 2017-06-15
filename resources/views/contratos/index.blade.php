@@ -159,6 +159,8 @@
                     Integral
                 @endif
 
+                <input name="membresia" type="text" hidden value="{{$membresia}}"/>
+
             </div>
 
             @if($errors->has('pagos'))
@@ -207,6 +209,12 @@
         @endif
             <label>Cédula de Identificación Fiscal</label>
             <input value="{{old('rfc_file')}}" type="file" name="rfc_file"> 
+        </div>
+
+
+        <div class="field required">
+            <label>Curriculum</label>
+            <input  type="file" name="curriculum"> 
         </div>
 
         

@@ -173,7 +173,7 @@
       </h1>
       <h2>Para iniciar recuerda tener tu documentación a la mano</h2>
       <p> </p>
-      <a href="{{action('ContratoController@index')}}" class="ui huge primary button">Iniciar Proceso <i class="right arrow icon"></i></a>
+      <a href="/membresia" class="ui huge primary button">Iniciar Proceso <i class="right arrow icon"></i></a>
     </div>
 
   </div>

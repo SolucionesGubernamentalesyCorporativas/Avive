@@ -349,8 +349,6 @@ class ContratoController extends Controller
         PDF::SetMargins(18, 30, 28);
         //configuraciones de fuente
         PDF::SetFont('helvetica', '', 12);
-        //texto al margen del contrato
-        $texto_margen = 'POR “AVIVE” '.$contrato->nombre_representante.'         '.'"EL AFILIADO" '.$contrato->nombre_afiliado;
         //encabezados
         PDF::setHeaderCallback(function($pdf) use ($contrato){
                 $image_file = '/dumy.png';
@@ -376,20 +374,7 @@ class ContratoController extends Controller
         PDF::startPageGroup();
 
 
-        
-
-
-
-        //--------- INICIO DE HOJA 1-------
         PDF::AddPage('P','LETTER');
-        
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        //fin texto del costado
 
         PDF::SetFont('helvetica', 'B', 12);
         $txt = "CONTRATO DE SERVICIOS AVIVE \nPARA MEMBRESÍA ".mb_strtoupper($contrato->membresia->nombre,'UTF-8');
@@ -432,8 +417,6 @@ class ContratoController extends Controller
         }
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-
-
         PDF::Ln();
         $txt='<b>I.3</b> Que está inscrita en el Registro Federal de Contribuyentes con la Clave CDH1402272L1, y Cédula de Identificación Fiscal 14040721676 expedida por el Servicio de Administración Tributaria.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
@@ -446,39 +429,26 @@ class ContratoController extends Controller
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
 
-
-
-
-        //-------- INICIO DE HOJA 2 ------
-        PDF::AddPage('P','LETTER');
-
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
-
+        PDF::Ln();
+        PDF::Ln();
         PDF::Ln();
         $txt='<b>I.5</b> Que como parte de su modelo de servicios ha desarrollado estrategias enfocadas a promover la incursión de expertos en diversos temas de interés para la sociedad, en múltiples sectores y organizaciones bajo una participación y coordinación colectiva que redunda favorablemente en la reputación y prestigio de cada uno de los participantes.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>I.6</b> Que los alcances de los derechos que asumen los afiliados para cada proyecto y las obligaciones de “AVIVE” con respecto a cada uno de los participantes se han identificado a través de la figura de membresías las cuales delimitan los aspectos cualitativos y cuantitativos que aplicarán a cada categoría.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,63, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
         
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
         $txt='II. Declara "EL AFILIADO" personalmente y por su propio derecho:';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,90, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
 
         PDF::SetFont('helvetica', '', 12);
 
         PDF::Ln();
-        $txt='II.1  Llamarse como ha quedado indicado al rubro del presente documento, ser de nacionalidad ';
+        $txt='<b>II.1</b>  Llamarse como ha quedado indicado al rubro del presente documento, ser de nacionalidad ';
         if($contrato->nacionalidad_afiliado === "Mexicana"){
             $txt.='mexicana, con Clave Única de Registro de Población '.$contrato->curp_afiliado;
         }else{
@@ -509,27 +479,11 @@ class ContratoController extends Controller
         $txt='<b>II.5</b> Que adjunta su curriculum vitae donde se destacan los principales datos  académicos, profesionales y laborales que detallan su experiencia en el manejo temático objeto del presente instrumento.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-
-
-
-
-
-        //-------- INICIO DE HOJA 3 ------
         PDF::AddPage('P','LETTER');
-
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
-
         PDF::Ln();
         PDF::SetFont('helvetica', 'B', 12);
         $txt='III. DECLARAN AMBAS PARTES:';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::SetFont('helvetica', '', 12);
 
@@ -551,6 +505,7 @@ class ContratoController extends Controller
         PDF::writeHTML( "CLÁUSULAS", true, 0, true, false, 'C');
         PDF::Ln();
         PDF::writeHTML( "OBJETO DEL CONTRATO", true, 0, true, false, 'j');
+
 
         PDF::SetFont('helvetica', '', 12);
         PDF::Ln();
@@ -585,24 +540,12 @@ class ContratoController extends Controller
 
 
 
-        //-------- INICIO DE HOJA 4 ------
         PDF::AddPage('P','LETTER');
-
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
 
 
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
-        PDF::MultiCell(170, 3,"2.1 SERVICIOS WEB:", 0, 'J', 0, 2, 17 ,35, true,0,true);
-
-        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( "2.1 SERVICIOS WEB:", true, 0, true, false, 'j');
         PDF::Ln();
         PDF::writeHTML( "2.1.1.- Directorio:", true, 0, true, false, 'j');
 
@@ -611,6 +554,7 @@ class ContratoController extends Controller
         PDF::Ln();
         $txt='Incorporación en el Directorio que “AVIVE” generará para la identificación de los participantes expertos en “EL PROYECTO”, mismo que contendrá al menos los datos de “EL AFILIADO” siguientes: nombre, fotografía, enlace a su página en Internet, de existir ésta, e información de contacto. ';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
 
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
@@ -642,7 +586,6 @@ class ContratoController extends Controller
         $txt.=' ocasiones en total y siempre que se encuentre vigente su Membresía.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-
         if($contrato->membresia->id ==1){
             PDF::SetFont('helvetica', 'B', 12);
             PDF::Ln();
@@ -661,31 +604,19 @@ class ContratoController extends Controller
 
 
 
-        //-------- INICIO DE HOJA 5 ------
-        PDF::AddPage('P','LETTER');
 
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
+        PDF::AddPage('P','LETTER');
 
         if($contrato->membresia->id !=1){
             PDF::Ln();
             $txt='<b>2.1.4.2</b> “AVIVE” se asegurará de que el Video Prólogo que produzca para “EL AFILIADO” sea accesible tanto en la plataforma que el propio “AVIVE” establezca en Internet específicamente para difusión de “EL PROYECTO”, como mediante la versión impresa del  trabajo que ponga a su disposición “EL AFILIADO” para su integración en la obra literaria integral, para lo cual “AVIVE” proporcionará a “EL AFILIADO” un servicio de realidad aumentada.';
-            PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
-            PDF::SetFont('helvetica', 'B', 12);
-            PDF::Ln();
-            PDF::MultiCell(170, 3,"2.2 MATERIAL IMPRESO", 0, 'J', 0, 2, 17 ,70, true,0,true);
-            
-        }else{
-            PDF::SetFont('helvetica', 'B', 12);
-            PDF::Ln();
-            PDF::MultiCell(170, 3,"2.2 MATERIAL IMPRESO", 0, 'J', 0, 2, 17 ,35, true,0,true);
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                        
         }
+
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( '2.2 MATERIAL IMPRESO', true, 0, true, false, 'J');
 
         PDF::SetFont('helvetica', '', 12);
         PDF::Ln();
@@ -712,66 +643,44 @@ class ContratoController extends Controller
         $txt='<b>2.2.5</b>  “AVIVE” podrá determinar la participación de expertos nacionales o internacionales que por su trayectoria den realce a “EL PROYECTO” en todas sus vertientes a pesar de no tener la característica de afiliados en beneficio del impacto de la obra literaria integral resultante y su difusión.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-
-        //-------- INICIO DE HOJA 6 ------
-        PDF::AddPage('P','LETTER');
-
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
-
-
         PDF::Ln();
         $txt='<b>2.2.6</b> “AVIVE” se asegurará en cualquier caso, que el material impreso o electrónico que contenga la obra que pondrá a su disposición “EL AFILIADO”, siempre conlleve el reconocimiento de su calidad de autor respecto de la obra por él creada, la cual “AVIVE” no podrá bajo ninguna circunstancia deformar, mutilar o modificar.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.7</b> “EL AFILIADO” conservará para sí los derechos morales y patrimoniales sobre su obra, “AVIVE” sólo está autorizado para incluir la obra de “EL AFILIADO” conjuntamente con los trabajos de los otros expertos afiliados que participarán en “EL PROYECTO” en el material impreso y electrónico que se genere del mismo, teniendo “EL AFILIADO” en todo momento la posibilidad de disponer la publicación de su obra en cualquier otro foro o de autorizar a otros su explotación, en cualquier forma.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,60, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.8</b> “EL AFILIADO” está de acuerdo y otorga su autorización para que “AVIVE” lleve a cabo la impresión de su obra para los efectos de “EL PROYECTO” conforme a lo establecido en el presente Contrato, en una sola pieza literaria en un número de ';
         $txt.=$contrato->ejemplares;
         $txt.=', ejemplares impresos, en ';
         $txt.='más un sólo archivo electrónico que contendrá la pieza literaria integral.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,95, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.9</b> “AVIVE” entregará a “EL AFILIADO” ';
         $txt.=$contrato->ejemplares_entrega;
         $txt.=' ejemplares impresos de la pieza literaria integral que se conforme con la conjunción de la obra de “EL AFILIADO” y la de los otros expertos afiliados que participarán en “EL PROYECTO”, así como el prólogo y los demás elementos que defina “AVIVE” en favor de la difusión y la generación de interés en “EL PROYECTO”. ';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,125, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.10</b> Las partes reconocen su acuerdo en que los ejemplares de la pieza literaria integral que “AVIVE” entregará a “EL AFILIADO”  constituirán la remuneración que “AVIVE” proporcionará a “EL AFILIADO” como autor y titular de los derechos patrimoniales de la obra que aportó en favor de “EL PROYECTO”.  “EL AFILIADO” podrá comercializar libremente dichos ejemplares.  El equivalente en monetario de dicha remuneración será el resultante de multiplicar el número de ejemplares proporcionados a “EL AFILIADO” por el costo de producción que conforme al numeral siguiente notifique oportunamente “AVIVE” a “EL AFILIADO”.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,155, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.11</b> “AVIVE” con independencia de los ejemplares que entregará a “EL AFILIADO” en términos y para los efectos a que se refieren los apartados anteriores, pondrá a disposición de “EL AFILIADO” el número de ejemplares que este desee adquirir de la pieza literaria integral correspondiente a ”EL PROYECTO” al costo de su producción sin mediar ganancia alguna para “AVIVE”, sujeto al número de ejemplares de que conste el tiraje correspondiente y a las solicitudes similares que reciba “AVIVE”  de otros afiliados participantes en “EL PROYECTO”.  Para tal efecto “AVIVE” notificará a “EL AFILIADO” dicho costo una vez que se cuente con el material de la pieza literaria integral impreso y previo al evento de lanzamiento a que se refiere el presente contrato.';
-        PDF::MultiCell(170, 3,$txt, 0, 'J', 0, 2, 17 ,205, true,0,true);
-
-
-        //-------- INICIO DE HOJA 7 ------
-        PDF::AddPage('P','LETTER');
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
         PDF::Ln();
         $txt='<b>2.2.12</b> “AVIVE” en atención a la membresía ';
         $txt.='<b>'.mb_strtoupper($contrato->membresia->nombre,'UTF-8').'</b>';
         $txt.=' que adquiere “EL AFILIADO” estará sujeta a lo siguiente:';
-        PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+
+        PDF::AddPage('P','LETTER');
 
         PDF::Ln();
         $txt='<b>2.2.12.1</b> La obra de “EL AFILIADO” formará parte de las páginas ';
@@ -792,6 +701,7 @@ class ContratoController extends Controller
         $txt.=$contrato->incluira_en;
         $txt.=' páginas de la pieza literaria integral resultante.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
 
         PDF::Ln();
         $txt='<b>2.2.12.4</b> El nombre de “EL AFILIADO”';
@@ -831,10 +741,9 @@ class ContratoController extends Controller
             PDF::Ln();
             $txt='<b>2.3.2</b>  Será responsabilidad de los usuarios contar con la aplicación y el equipo para su instalación a efecto de poder hacer uso del servicio de realidad aumentada.  En todo caso la aplicación correspondiente será de uso gratuito y deberá estar disponible para servicios IOS y ANDROID';
             PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-           
-
         }
+
+
 
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
@@ -845,20 +754,13 @@ class ContratoController extends Controller
         $txt='“AVIVE” proporcionará un archivo en formato electrónico a “EL AFILIADO” que contenga una versión de la compilación de material aportado por él y por los expertos participantes en “EL PROYECTO”';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-        //-------- INICIO DE HOJA 8 ------
-        PDF::AddPage('P','LETTER');
-        //inicio del texto del costado
-        PDF::StartTransform();
-        PDF::SetFont('helvetica', '', 9);
-        PDF::Rotate(-90);
-        PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-        PDF::StopTransform();
-        PDF::SetFont('helvetica', '', 12);
-        //fin texto del costado
+        if($contrato->membresia->id!=1){
+            PDF::AddPage('P','LETTER');
+        }
 
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
-        PDF::MultiCell(170, 2,"2.5 LANZAMIENTO ", 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::writeHTML( "2.5 LANZAMIENTO", true, 0, true, false, 'j');
         PDF::Ln();
         PDF::writeHTML( "2.5.1 Evento de Lanzamiento", true, 0, true, false, 'j');
 
@@ -866,6 +768,7 @@ class ContratoController extends Controller
         PDF::Ln();
         $txt='<b>2.5.1.1</b> “AVIVE” coordinará un evento a desarrollarse en la fecha que determine y en las instalaciones acondicionadas para recibir a los expertos participantes en “EL PROYECTO”, a sus invitados en atención al número que de los mismos corresponda a su membresía, y a personas de los medios de comunicación, todo ello a efecto de dar a conocer los aspectos destacados de “EL PROYECTO” y presentar la pieza literaria integral que se conforme con las obras aportadas por todos los expertos afiliados en términos de lo señalado en el presente contrato.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
 
         PDF::Ln();
         $txt='<b>2.5.1.2</b> “EL AFILIADO” recibirá de “AVIVE” ';
@@ -885,6 +788,8 @@ class ContratoController extends Controller
         $txt='<b>2.5.1.5</b> “AVIVE” podrá invitar a participar en el evento de lanzamiento  a expertos nacionales o internacionales que por su trayectoria den realce a “EL PROYECTO” a pesar de no tener la característica de afiliados.';
         PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+        
+
         PDF::SetFont('helvetica', 'B', 12);
         PDF::Ln();
         PDF::writeHTML( "2.5.2 Video de Lanzamiento", true, 0, true, false, 'J');
@@ -892,9 +797,6 @@ class ContratoController extends Controller
             PDF::Ln();
             PDF::writeHTML( "2.5.2.1 No se contempla para Membresía Básica ", true, 0, true, false, 'J');
             PDF::Ln();
-            PDF::writeHTML( "2.5.3 Tiempo en Podium", true, 0, true, false, 'J');
-            PDF::Ln();
-            PDF::writeHTML( "2.5.3.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
             
         }else{
             PDF::SetFont('helvetica', '', 12);
@@ -902,113 +804,119 @@ class ContratoController extends Controller
             $txt='<b>2.5.2.1 </b>“AVIVE” producirá un video de lanzamiento con una duración mínima de dos minutos, que abordará la temática de “EL PROYECTO” y en el cual se efectuará la mención de los nombres de los afiliados con Membresías Óptima e Integral.  Dicho video estará disponible con posterioridad a la realización del evento de Lanzamiento, en el sitio especializado que “AVIVE” establezca en Internet específicamente para difusión de “EL PROYECTO” y a través del enlace que se integre por conducto de las plataformas de redes sociales que utilizará “AVIVE” en los términos que se precisan en el presente Contrato.';
             PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-            //-------- INICIO DE HOJA 9 ------
-            PDF::AddPage('P','LETTER');
-            //inicio del texto del costado
-            PDF::StartTransform();
-            PDF::SetFont('helvetica', '', 9);
-            PDF::Rotate(-90);
-            PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-            PDF::StopTransform();
-            PDF::SetFont('helvetica', '', 12);
-            //fin texto del costado
-
             PDF::Ln();
             $txt='<b>2.5.2.2</b>  “AVIVE” tomará el criterio primero en tiempo primero en orden de mención para determinar entre afiliados que adquieran el mismo tipo de membresía, el orden de mención su nombre en el Video de lanzamiento.  Conforme a este parámetro la fecha y hora  de liquidación de la membresía a “AVIVE” que aparezca en su estado de cuenta determinará la secuencia correspondiente.';
-            PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
-            
-            
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+   
         }
 
 
 
-        //--------------------------------------------- INICIAN LAS HOJAS DISPAREJAS ------------------------------------------        
+        if($contrato->membresia->id==1){
+            PDF::writeHTML( "2.5.3 Tiempo en Podium", true, 0, true, false, 'J');
+            PDF::Ln();
+            PDF::writeHTML( "2.5.3.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
+            
+        }else{
+            PDF::SetFont('helvetica', '', 12);
+            PDF::Ln();
+            $txt='<b>2.5.3.1</b> “AVIVE” coordinará la logística del evento de lanzamiento considerando la intervención presencial que en el mismo deberán tener los afiliados que participen en “EL PROYECTO” y cuenten con Membresías Óptima e Integral. Salvo caso fortuito o de fuerza mayor que impida a “EL AFILIADO” participar en la fecha y hora programada para ello, “AVIVE” aplicará los medios a su alcance para preservar su intervención en términos óptimos.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+            PDF::Ln();
+            $txt='<b>2.5.3.2</b> “EL AFILIADO” contará con un tiempo de ';
+            $txt.=$contrato->tiempo_podio;
+            $txt.=' minutos para hacer su intervención presencial el día del evento de Lanzamiento desde el Podium.  El orden de la intervención de “EL AFILIADO” será definido por “AVIVE” aplicando el mismo criterio señalado en el apartado referente al video de lanzamiento.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-        if($contrato->membresia->id == 1){ //membresia 1
-                //-------- INICIO DE HOJA 9 ------
-                PDF::AddPage('P','LETTER');
-                //inicio del texto del costado
-                PDF::StartTransform();
-                PDF::SetFont('helvetica', '', 9);
-                PDF::Rotate(-90);
-                PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-                PDF::StopTransform();
-                PDF::SetFont('helvetica', '', 12);
-                //fin texto del costado
+        }
 
-                PDF::SetFont('helvetica', 'B', 12);
-                PDF::Ln();
-                PDF::MultiCell(170, 2,"2.5.4 Presencia en Material Visual el día del Evento ", 0, 'J', 0, 2, 17 ,35, true,0,true);
-                PDF::Ln();
-                PDF::writeHTML( "2.5.4.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
+        PDF::Ln();
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( "2.5.4 Presencia en Material Visual el día del Evento ", true, 0, true, false, 'J');
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
 
-                PDF::Ln();
-                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
+        if($contrato->membresia->id==1 || $contrato->membresia->id==2){
+            PDF::writeHTML( "2.5.4.1 No se contempla para Membresía Básica", true, 0, true, false, 'J');
+        }else{
+            $txt='“AVIVE” utilizará el día del evento de Lanzamiento un caballete donde se colocará una imagen de “EL AFILIADO” con su nombre y algún otro dato que estime conveniente “AVIVE” vinculado a “EL PROYECTO”.  La imagen estará contenida en una de pieza de material sólido cuyas dimensiones no serán  inferiores a los 40 cm de un lado por 35 cm del otro.  El orden de colocación de los caballetes en caso de existir más de un afiliado con membresía Integral, será definido por “AVIVE” aplicando el mismo criterio de orden establecido en el apartado referente al video de lanzamiento.';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        }
 
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        PDF::Ln();
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
 
-                PDF::Ln();
-                $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-                
-                PDF::SetFont('helvetica', 'B', 12);
-                PDF::Ln();
-                PDF::writeHTML( "COMPROMISOS A CARGO DE “EL AFILIADO", true, 0, true, false, 'J');
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='<b>TERCERA.-</b> "EL AFILIADO" mediante la suscripción del presente Contrato reconoce que la definición de las estrategias que coordinará “AVIVE” implican asegurar la participación de cada uno de los expertos que intervienen en “EL PROYECTO” en este sentido acepta que su integración al mismo a través de la membresía que adquiere, conlleva asegurar para “AVIVE” y para el resto de los afiliados el asumir una conducta ética responsable, por lo cual se compromete:';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        PDF::Ln();
+        $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                PDF::Ln();
-                $txt='<b>3.1</b> A proporcionar a “AVIVE” datos biográficos y curriculares precisos, correspondientes con situaciones y actividades académicas, profesionales y laborales reales, objetivas y acreditables  que aseguren para los participantes en “EL PROYECTO” y en general a cualquier tercero, la certeza de que la información dada a conocer con respecto a “EL AFILIADO” como experto en la temática de “EL PROYECTO” es cierta, exacta y no sujeta a consideraciones subjetivas.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        if($contrato->membresia->id==2){
+            PDF::AddPage('P','LETTER');
+        }
+        
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::Ln();
+        PDF::writeHTML( "COMPROMISOS A CARGO DE “EL AFILIADO", true, 0, true, false, 'J');
 
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>TERCERA.-</b> "EL AFILIADO" mediante la suscripción del presente Contrato reconoce que la definición de las estrategias que coordinará “AVIVE” implican asegurar la participación de cada uno de los expertos que intervienen en “EL PROYECTO” en este sentido acepta que su integración al mismo a través de la membresía que adquiere, conlleva asegurar para “AVIVE” y para el resto de los afiliados el asumir una conducta ética responsable, por lo cual se compromete:';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+        PDF::Ln();
+        $txt='<b>3.1</b> A proporcionar a “AVIVE” datos biográficos y curriculares precisos, correspondientes con situaciones y actividades académicas, profesionales y laborales reales, objetivas y acreditables  que aseguren para los participantes en “EL PROYECTO” y en general a cualquier tercero, la certeza de que la información dada a conocer con respecto a “EL AFILIADO” como experto en la temática de “EL PROYECTO” es cierta, exacta y no sujeta a consideraciones subjetivas.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
+        PDF::Ln();
+        $txt='<b>3.2</b>  A participar a solicitud de “AVIVE” en los trabajos de producción asociados directamente con su imagen, voz, o cualquier forma de intervención personal en virtud de los servicios que adquiere conforme a su Membresía y en atención al detalle que de los mismos se efectúa en la Cláusula Segunda del presente Contrato, en este sentido y dada la naturaleza de los servicios y productos a desarrollar por “AVIVE” en términos de dicho apartado, “EL AFILIADO” asume el compromiso de asistir y atender personalmente las actividades que como experto le involucran en “EL PROYECTO”, por lo que brindará a “AVIVE” las facilidades necesarias para ello. ';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                //-------- INICIO DE HOJA 10 ------
-                PDF::AddPage('P','LETTER');
-                //inicio del texto del costado
-                PDF::StartTransform();
-                PDF::SetFont('helvetica', '', 9);
-                PDF::Rotate(-90);
-                PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-                PDF::StopTransform();
-                PDF::SetFont('helvetica', '', 12);
-                //fin texto del costado
+        if($contrato->membresia->id==1){
+            PDF::Ln();
+        }
 
-                PDF::Ln();
-                $txt='<b>3.2</b>  A participar a solicitud de “AVIVE” en los trabajos de producción asociados directamente con su imagen, voz, o cualquier forma de intervención personal en virtud de los servicios que adquiere conforme a su Membresía y en atención al detalle que de los mismos se efectúa en la Cláusula Segunda del presente Contrato, en este sentido y dada la naturaleza de los servicios y productos a desarrollar por “AVIVE” en términos de dicho apartado, “EL AFILIADO” asume el compromiso de asistir y atender personalmente las actividades que como experto le involucran en “EL PROYECTO”, por lo que brindará a “AVIVE” las facilidades necesarias para ello. ';
-                PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
+        PDF::Ln();
+        $txt='<b>3.3</b> A proporcionar a “AVIVE” el texto de su exclusiva autoría a que se refiere el presente Contrato para su integración en la pieza literaria integral que se conformará conjuntamente con la participación de los otros afiliados expertos y en apego a los términos que en el mismo se indican, por lo que se asegurará de que se trate de una obra respecto de la cual tenga tanto el derecho moral como el derecho patrimonial inherentes a su calidad de autor, asumiendo la obligación a sacar a salvo a “AVIVE” de cualquier acción administrativa o judicial que se pueda derivar en su contra por cualquier violación a los preceptos aplicables en materia de derechos de autor que se desprendan de la acción de un tercero que reclame mejor derecho que “EL AFILIADO” sobre la obra de que se trate. ';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                PDF::Ln();
-                $txt='<b>3.3</b> A proporcionar a “AVIVE” el texto de su exclusiva autoría a que se refiere el presente Contrato para su integración en la pieza literaria integral que se conformará conjuntamente con la participación de los otros afiliados expertos y en apego a los términos que en el mismo se indican, por lo que se asegurará de que se trate de una obra respecto de la cual tenga tanto el derecho moral como el derecho patrimonial inherentes a su calidad de autor, asumiendo la obligación a sacar a salvo a “AVIVE” de cualquier acción administrativa o judicial que se pueda derivar en su contra por cualquier violación a los preceptos aplicables en materia de derechos de autor que se desprendan de la acción de un tercero que reclame mejor derecho que “EL AFILIADO” sobre la obra de que se trate. ';
-                PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,80, true,0,true);
+        PDF::Ln();
+        $txt='<b>3.4</b> En general a conducir su intervención en “EL PROYECTO” apegado a los términos del presente Contrato asumiendo que su conducta individual con relación a los trabajos que prestará “AVIVE”, involucra al colectivo de expertos afiliados y en tal sentido a la reputación y prestigio de cada uno de los participantes.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                PDF::Ln();
-                $txt='<b>3.4</b> En general a conducir su intervención en “EL PROYECTO” apegado a los términos del presente Contrato asumiendo que su conducta individual con relación a los trabajos que prestará “AVIVE”, involucra al colectivo de expertos afiliados y en tal sentido a la reputación y prestigio de cada uno de los participantes.';
-                PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,135, true,0,true);
+        
 
+        PDF::Ln();PDF::Ln();
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( 'MONTO DEL CONTRATO', true, 0, true, false, 'J');
 
-                PDF::Ln();
-                PDF::SetFont('helvetica', 'B', 12);
-                PDF::MultiCell(170, 2,"MONTO DEL CONTRATO.", 0, 'J', 0, 2, 17 ,160, true,0,true);
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>CUARTA.-</b> Las partes convienen que el monto que “EL AFILIADO” pagará a “AVIVE” correspondiente a los servicios a que se refiere el presente Contrato se sujetará a lo siguiente:';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
 
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='<b>CUARTA.-</b> Las partes convienen que el monto que “EL AFILIADO” pagará a “AVIVE” correspondiente a los servicios a que se refiere el presente Contrato se sujetará a lo siguiente:';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        if($contrato->membresia->id==1){
+            PDF::Ln();
+            $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 25,000.00 (Veinticinco Mil Pesos 00/100 MN).';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        }elseif ($contrato->membresia->id==2) {
+            PDF::Ln();
+            $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 50,000.00 (Cincuenta Mil Pesos 00/100 MN).';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        }else{
+            PDF::Ln();
+            $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 100,000.00 (Cien Mil Pesos 00/100 MN).';
+            PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        }
 
-                //pagos de la membresia
-                PDF::Ln();
-                $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 25,000.00 (Veinticinco Mil Pesos 00/100 MN).';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
+        switch($contrato->membresia->id){
+            case 1:
                 if($contrato->pago->id == 1){
                     PDF::Ln();
                     $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 20% por efectuar el pago en una sola exhibición por lo que el monto a pagar será de $20,000.00 (Veinte Mil Pesos 00/100 MN) más IVA para un MONTO TOTAL de $23,200.00 (Veintitrés Mil Doscientos Pesos 00/100 MN) pagaderos a más tardar el día ';
@@ -1028,221 +936,171 @@ class ContratoController extends Controller
                     $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].', '.$fechas[3].', '.$fechas[4].', '.$fechas[5].'.' ;
                     PDF::writeHTML( $txt, true, 0, true, false, 'J');
                 }
+            break;
 
-                
-
-
-        }else{//casos en comun de la 2 y 3 
-            PDF::SetFont('helvetica', 'B', 12);
-            PDF::writeHTML( "2.5.3 Tiempo en Podium ", true, 0, true, false, 'J');
-
-            PDF::SetFont('helvetica', '', 12);
-            PDF::Ln();
-            $txt='<b>2.5.3.1</b> “AVIVE” coordinará la logística del evento de lanzamiento considerando la intervención presencial que en el mismo deberán tener los afiliados que participen en “EL PROYECTO” y cuenten con Membresías Óptima e Integral. Salvo caso fortuito o de fuerza mayor que impida a “EL AFILIADO” participar en la fecha y hora programada para ello, “AVIVE” aplicará los medios a su alcance para preservar su intervención en términos óptimos.';
-            PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-            PDF::Ln();
-            $txt='<b>2.5.3.2</b> “EL AFILIADO” contará con un tiempo de ';
-            $txt.=$contrato->tiempo_podio;
-            $txt.=' minutos para hacer su intervención presencial el día del evento de Lanzamiento desde el Podium.  El orden de la intervención de “EL AFILIADO” será definido por “AVIVE” aplicando el mismo criterio señalado en el apartado referente al video de lanzamiento.';
-            PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-            PDF::SetFont('helvetica', 'B', 12);
-            
-            if($contrato->membresia->id == 2){
-                PDF::Ln();
-                PDF::writeHTML( "2.5.4 Presencia en Material Visual el día del Evento ", true, 0, true, false, 'J');
-                //PDF::MultiCell(170, 2,"2.5.4 Presencia en Material Visual el día del Evento ", 0, 'J', 0, 2, 17 ,55, true,0,true);
-                PDF::Ln();
-                PDF::writeHTML( "2.5.4.1 No se contempla para Membresía Óptima", true, 0, true, false, 'J');
-                PDF::Ln();
-                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
-
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                PDF::Ln();
-                $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                
-
-            }else{
-                PDF::Ln();
-                PDF::writeHTML( "2.5.4 Presencia en Material Visual el día del Evento ", true, 0, true, false, 'J');
-
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='“AVIVE” utilizará el día del evento de Lanzamiento un caballete donde se colocará una imagen de “EL AFILIADO” con su nombre y algún otro dato que estime conveniente “AVIVE” vinculado a “EL PROYECTO”.  La imagen estará contenida en una de pieza de material sólido cuyas dimensiones no serán  inferiores a los 40 cm de un lado por 35 cm del otro.  El orden de colocación de los caballetes en caso de existir más de un afiliado con membresía Integral, será definido por “AVIVE” aplicando el mismo criterio de orden establecido en el apartado referente al video de lanzamiento.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                
-                PDF::SetFont('helvetica', 'B', 12);
-                PDF::Ln();
-                PDF::writeHTML( "2.6 COWORKING", true, 0, true, false, 'J');
-
-                PDF::SetFont('helvetica', '', 12);
-                PDF::Ln();
-                $txt='<b>2.6.1</b> “AVIVE” organizará al menos dos sesiones de trabajo durante la vigencia de la membresía de “EL AFILIADO” a la que le convocará a participar con el fin de compartir sus experiencias con los otros expertos afiliados participantes en “EL PROYECTO”.  Esta experiencia de trabajo será presencial y se llevará a cabo en las instalaciones que determine “AVIVE” y ponga a disposición de los participantes en la fecha y en el horario que les comunique al menos con 20 días de anticipación.';
-                PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                
-
-            }
-
-
-            //-------- INICIO DE HOJA 10 ------
-                PDF::AddPage('P','LETTER');
-                //inicio del texto del costado
-                PDF::StartTransform();
-                PDF::SetFont('helvetica', '', 9);
-                PDF::Rotate(-90);
-                PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-                PDF::StopTransform();
-                PDF::SetFont('helvetica', '', 12);
-                //fin texto del costado
-
-                if($contrato->membresia->id == 2){//caso de la membresia 2
-                    PDF::SetFont('helvetica', 'B', 12);
+            case 2:
+                if($contrato->pago->id == 1){
                     PDF::Ln();
-                    PDF::MultiCell(170, 2,"COMPROMISOS A CARGO DE “EL AFILIADO", 0, 'J', 0, 2, 17 ,35, true,0,true);
-
-
-                    PDF::SetFont('helvetica', '', 12);
-                    PDF::Ln();
-                    $txt='<b>TERCERA.-</b> "EL AFILIADO" mediante la suscripción del presente Contrato reconoce que la definición de las estrategias que coordinará “AVIVE” implican asegurar la participación de cada uno de los expertos que intervienen en “EL PROYECTO” en este sentido acepta que su integración al mismo a través de la membresía que adquiere, conlleva asegurar para “AVIVE” y para el resto de los afiliados el asumir una conducta ética responsable, por lo cual se compromete:';
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 20% por efectuar el pago en una sola exhibición por lo que el monto a pagar será de $40,000.00 (Cuarenta Mil Pesos 00/100 MN) más IVA para un MONTO TOTAL de $46,400.00 (Cuarenta y Seis Mil Cuatrocientos Pesos 00/100 MN) pagaderos a más tardar el día ';
+                    $txt.=$this->ultimoDiaMes($contrato->created_at);
                     PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
+                }elseif($contrato->pago->id ==2){
                     PDF::Ln();
-                    $txt='<b>3.1</b> A proporcionar a “AVIVE” datos biográficos y curriculares precisos, correspondientes con situaciones y actividades académicas, profesionales y laborales reales, objetivas y acreditables  que aseguren para los participantes en “EL PROYECTO” y en general a cualquier tercero, la certeza de que la información dada a conocer con respecto a “EL AFILIADO” como experto en la temática de “EL PROYECTO” es cierta, exacta y no sujeta a consideraciones subjetivas.';
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 10% por efectuar el pago en tres parcialidades por lo que el monto a pagar será de $45,000.00 (Cuarenta y Cinco Mil Pesos 00/100 MN) más IVA para un total de  $52,200.00 (Cincuenta y Dos Mil Doscientos Pesos 00/100 MN) pagaderos en tres pagos mensuales de $17,400.00 (Diecisiete Mil Cuatrocientos Pesos 00/100 MN) IVA incluido  pagaderos a más tardar los días ';
+                    $fechas = $this->tresPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].'.' ;
                     PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
+                    
+                }else{
                     PDF::Ln();
-                    $txt='<b>3.2</b>  A participar a solicitud de “AVIVE” en los trabajos de producción asociados directamente con su imagen, voz, o cualquier forma de intervención personal en virtud de los servicios que adquiere conforme a su Membresía y en atención al detalle que de los mismos se efectúa en la Cláusula Segunda del presente Contrato, en este sentido y dada la naturaleza de los servicios y productos a desarrollar por “AVIVE” en términos de dicho apartado, “EL AFILIADO” asume el compromiso de asistir y atender personalmente las actividades que como experto le involucran en “EL PROYECTO”, por lo que brindará a “AVIVE” las facilidades necesarias para ello. ';
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” seis mensualidades sin intereses por lo que el monto a pagar será de $50,000.40 (Cincuenta Mil Pesos 40/100 MN) más IVA para un total de  $58,000.50 (Veintinueve Mil Dos Pesos 40/100 MN)] liquidable en seis pagos mensuales de $9,666.80 (Nueve Mil Seiscientos Sesenta y Seis Pesos 80/100 MN)  pagaderos a más tardar los días ';
+                    $fechas = $this->seisPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].', '.$fechas[3].', '.$fechas[4].', '.$fechas[5].'.' ;
                     PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    PDF::Ln();
-                    $txt='<b>3.3</b> A proporcionar a “AVIVE” el texto de su exclusiva autoría a que se refiere el presente Contrato para su integración en la pieza literaria integral que se conformará conjuntamente con la participación de los otros afiliados expertos y en apego a los términos que en el mismo se indican, por lo que se asegurará de que se trate de una obra respecto de la cual tenga tanto el derecho moral como el derecho patrimonial inherentes a su calidad de autor, asumiendo la obligación a sacar a salvo a “AVIVE” de cualquier acción administrativa o judicial que se pueda derivar en su contra por cualquier violación a los preceptos aplicables en materia de derechos de autor que se desprendan de la acción de un tercero que reclame mejor derecho que “EL AFILIADO” sobre la obra de que se trate. ';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    PDF::Ln();
-                    $txt='<b>3.4</b> En general a conducir su intervención en “EL PROYECTO” apegado a los términos del presente Contrato asumiendo que su conducta individual con relación a los trabajos que prestará “AVIVE”, involucra al colectivo de expertos afiliados y en tal sentido a la reputación y prestigio de cada uno de los participantes.';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    //-------- INICIO DE HOJA 11 ------
-                    PDF::AddPage('P','LETTER');
-                    //inicio del texto del costado
-                    PDF::StartTransform();
-                    PDF::SetFont('helvetica', '', 9);
-                    PDF::Rotate(-90);
-                    PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-                    PDF::StopTransform();
-                    PDF::SetFont('helvetica', '', 12);
-                    //fin texto del costado
-
-
-                    PDF::Ln();
-                    PDF::SetFont('helvetica', 'B', 12);
-                    PDF::MultiCell(170, 2,"MONTO DEL CONTRATO.", 0, 'J', 0, 2, 17 ,35, true,0,true);
-
-                    PDF::SetFont('helvetica', '', 12);
-                    PDF::Ln();
-                    $txt='<b>CUARTA.-</b> Las partes convienen que el monto que “EL AFILIADO” pagará a “AVIVE” correspondiente a los servicios a que se refiere el presente Contrato se sujetará a lo siguiente:';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    //pagos de la membresia
-                    PDF::Ln();
-                    $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 50,000.00 (Cincuenta Mil Pesos 00/100 MN).';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    if($contrato->pago->id == 1){
-
-                    }
-
-
-
-                }else{ //caso de la membresia 3
-                    PDF::Ln();
-                    $txt='<b>2.6.2</b> “AVIVE” pondrá a disposición de “EL AFILIADO” el listado de personas y datos de contacto de las mismas que entren en contacto con “AVIVE” por estar interesadas en “EL PROYECTO” o que ingresen al sitio especializado que “AVIVE” establezca en Internet específicamente para obtener información en general del mismo o que mencionen su interés en la obra o los servicios que ofrezca “EL AFILIADO”.  Tal información deberá ser manejada acorde con el aviso de privacidad que en su momento establezca “AVIVE” para efectos de “EL PROYECTO”.';
-                    PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
-
-                    PDF::SetFont('helvetica', 'B', 12);
-                    PDF::Ln();
-                    PDF::MultiCell(170, 2,"COMPROMISOS A CARGO DE “EL AFILIADO", 0, 'J', 0, 2, 17 ,75, true,0,true);
-
-
-                    PDF::SetFont('helvetica', '', 12);
-                    PDF::Ln();
-                    $txt='<b>TERCERA.-</b> "EL AFILIADO" mediante la suscripción del presente Contrato reconoce que la definición de las estrategias que coordinará “AVIVE” implican asegurar la participación de cada uno de los expertos que intervienen en “EL PROYECTO” en este sentido acepta que su integración al mismo a través de la membresía que adquiere, conlleva asegurar para “AVIVE” y para el resto de los afiliados el asumir una conducta ética responsable, por lo cual se compromete:';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-
-                    PDF::Ln();
-                    $txt='<b>3.1</b> A proporcionar a “AVIVE” datos biográficos y curriculares precisos, correspondientes con situaciones y actividades académicas, profesionales y laborales reales, objetivas y acreditables  que aseguren para los participantes en “EL PROYECTO” y en general a cualquier tercero, la certeza de que la información dada a conocer con respecto a “EL AFILIADO” como experto en la temática de “EL PROYECTO” es cierta, exacta y no sujeta a consideraciones subjetivas.';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    PDF::Ln();
-                    $txt='<b>3.2</b>  A participar a solicitud de “AVIVE” en los trabajos de producción asociados directamente con su imagen, voz, o cualquier forma de intervención personal en virtud de los servicios que adquiere conforme a su Membresía y en atención al detalle que de los mismos se efectúa en la Cláusula Segunda del presente Contrato, en este sentido y dada la naturaleza de los servicios y productos a desarrollar por “AVIVE” en términos de dicho apartado, “EL AFILIADO” asume el compromiso de asistir y atender personalmente las actividades que como experto le involucran en “EL PROYECTO”, por lo que brindará a “AVIVE” las facilidades necesarias para ello. ';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-
-
-                    //-------- INICIO DE HOJA 11 ------
-                    PDF::AddPage('P','LETTER');
-                    //inicio del texto del costado
-                    PDF::StartTransform();
-                    PDF::SetFont('helvetica', '', 9);
-                    PDF::Rotate(-90);
-                    PDF::MultiCell(170, 3,$texto_margen, 0, 'J', 0, 2, 18 ,-155, true);
-                    PDF::StopTransform();
-                    PDF::SetFont('helvetica', '', 12);
-                    //fin texto del costado
-
-
-                    PDF::Ln();
-                    $txt='<b>3.3</b> A proporcionar a “AVIVE” el texto de su exclusiva autoría a que se refiere el presente Contrato para su integración en la pieza literaria integral que se conformará conjuntamente con la participación de los otros afiliados expertos y en apego a los términos que en el mismo se indican, por lo que se asegurará de que se trate de una obra respecto de la cual tenga tanto el derecho moral como el derecho patrimonial inherentes a su calidad de autor, asumiendo la obligación a sacar a salvo a “AVIVE” de cualquier acción administrativa o judicial que se pueda derivar en su contra por cualquier violación a los preceptos aplicables en materia de derechos de autor que se desprendan de la acción de un tercero que reclame mejor derecho que “EL AFILIADO” sobre la obra de que se trate. ';
-                    PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,35, true,0,true);
-
-                    PDF::Ln();
-                    $txt='<b>3.4</b> En general a conducir su intervención en “EL PROYECTO” apegado a los términos del presente Contrato asumiendo que su conducta individual con relación a los trabajos que prestará “AVIVE”, involucra al colectivo de expertos afiliados y en tal sentido a la reputación y prestigio de cada uno de los participantes.';
-                    PDF::MultiCell(170, 2,$txt, 0, 'J', 0, 2, 17 ,90, true,0,true);
-
-                    PDF::Ln();
-                    PDF::SetFont('helvetica', 'B', 12);
-                    PDF::MultiCell(170, 2,"MONTO DEL CONTRATO.", 0, 'J', 0, 2, 17 ,115, true,0,true);
-
-                    PDF::SetFont('helvetica', '', 12);
-                    PDF::Ln();
-                    $txt='<b>CUARTA.-</b> Las partes convienen que el monto que “EL AFILIADO” pagará a “AVIVE” correspondiente a los servicios a que se refiere el presente Contrato se sujetará a lo siguiente:';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
-                    //pagos de la membresia
-                    PDF::Ln();
-                    $txt='<b>4.1</b> El monto total a pagar por parte de “EL AFILIADO”, será de 100,000.00 (Cien Mil Pesos 00/100 MN).';
-                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
-
                 }
+            break;
 
-
-
-            
+            case 3:
+                if($contrato->pago->id == 1){
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 20% por efectuar el pago en una sola exhibición por lo que el monto a pagar será de $80,000.00 (Ochenta Mil Pesos 00/100 MN) más IVA para un MONTO TOTAL de $92,800.00 (Noventa y Dos Mil Ochocientos Pesos 00/100 MN) pagaderos a más tardar el día ';
+                    $txt.=$this->ultimoDiaMes($contrato->created_at);
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                }elseif($contrato->pago->id ==2){
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” un descuento del 10% por efectuar el pago en tres parcialidades por lo que el monto a pagar será de $90,000.00 (Noventa Mil Pesos 00/100 MN) más IVA para un total de  $104,400.00 (Ciento Cuatro Mil Cuatrocientos Pesos 00/100 MN) pagaderos en tres pagos mensuales de $34,800.00 (Treinta y Cuatro Mil Ochocientos Pesos 00/100 MN) IVA incluido  pagaderos a más tardar los días ';
+                    $fechas = $this->tresPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].'.' ;
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                    
+                }else{
+                    PDF::Ln();
+                    $txt='<b>4.2</b> “AVIVE” otorgará a “EL AFILIADO” seis mensualidades sin intereses por lo que el monto a pagar será de $100,000.20 (Cien Mil Pesos 20/100 MN) más IVA para un total de  $116,000.30 (Ciento Dieciséis Mil Pesos 30/100 MN)] liquidable en seis pagos mensuales de $19,333.40 (Diecinueve Mil Trescientos Treinta y Tres Pesos 40/100 MN)  pagaderos a más tardar los días ';
+                    $fechas = $this->seisPagos($contrato->created_at);
+                    $txt.=$fechas[0].', '.$fechas[1].', '.$fechas[2].', '.$fechas[3].', '.$fechas[4].', '.$fechas[5].'.' ;
+                    PDF::writeHTML( $txt, true, 0, true, false, 'J');
+                }
+            break;
         }
+
+        PDF::Ln();
+        $txt='Dicho beneficio quedará sin efecto en caso de que “EL AFILIADO” incumpla o efectúe fuera del plazo establecido cualquiera de los pagos acordados,  quedando obligado “EL AFILIADO” a liquidar el monto total correspondiente a su membresía sin considerar descuento o diferimiento alguno al día siguiente a aquel en que se produzca el incumplimiento.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>4.3</b> Los pagos que efectúe “EL AFILIADO” deberán hacerse en la cuenta número ';
+        $txt.=' con cuenta CLABE ';
+        $txt.=' a nombre de CONSULTORÍA EN DESARROLLO HUMANO Y ORGANIZACIONAL AVIVE S.C.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>4.4</b> “EL AFILIADO” deberá hacer el pago íntegro de los montos establecidos en la presente Cláusula a más tardar en las fechas señaladas en su apartado 4.2,  por lo que de hacerlo extemporáneamente pagará el 5% mensual sobre el monto no cubierto en tiempo.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+        PDF::Ln();
+        $txt='<b>4.5</b> Cuando “EL AFILIADO” pague la renta con cheque, y resultare que el mismo no tiene fondos, “EL AFILIADO” pagará a “AVIVE” el 20% sobre el importe del mismo en los términos del Artículo 193 de la Ley de Títulos y Operaciones de Crédito, así como las comisiones vigentes del Banco que se trate.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        if($contrato->membresia->id==1){
+            PDF::AddPage('P','LETTER');
+        }
+        PDF::Ln();
+        $txt='<b>4.6</b> Contra el pago de los servicios pactados y en los términos establecidos en el presente instrumento, “AVIVE” entregará a “EL AFILIADO” un comprobante que ampare el monto correspondiente, el cual deberá reunir los requisitos señalados en las disposiciones fiscales respectivas, expedirse conforme a la información indicada en el apartado de declaraciones de “EL AFILIADO” y ser entregado en su correo electrónico.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        if($contrato->membresia->id!=1){
+            PDF::AddPage('P','LETTER');
+        }
+        PDF::Ln(); 
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( 'VIGENCIA.', true, 0, true, false, 'J');
+
+
+        PDF::Ln();
+        PDF::SetFont('helvetica', '', 12);
+        $txt='<b>QUINTA.-</b> La duración del presente contrato es de ';
+        if($contrato->duracion_contrato==NULL){
+            $txt.='1 año';
+        }else{
+            $txt.=$contrato->duracion_contrato;
+        }
+        $txt.=' contado a partir del evento de lanzamiento, forzoso para ambas partes.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln(); 
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( 'LÍMITE DE RESPONSABILIDAD E INDEMNIZACIÓN.', true, 0, true, false, 'J');
+
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>SEXTA..-</b> “AVIVE” acuerda en indemnizar y mantener en paz y a salvo a “EL AFILIADO”en caso de que éste llegase a sufrir daños y perjuicios o le sea presentada en su contra, en forma directa o indirecta, una demanda, denuncia, querella, reclamación, queja u otra acción similar, por parte de terceros, que sea resultado de la falta de cumplimiento por parte de “AVIVE” a obligaciones adquiridas en los términos del presente Contrato, siempre y cuando “EL AFILIADO”no sea responsable de dicho incumplimiento.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='“EL AFILIADO”acuerda en indemnizar y mantener en paz y a salvo a “AVIVE” en caso de que éste llegase a sufrir daños y perjuicios o le sea presentada en su contra, en forma directa o indirecta, una demanda, denuncia, querella, reclamación, queja u otra acción similar, por parte de terceros incluyendo un algún titular de Derechos de Autor, que sea resultado de la falta de cumplimiento por parte de “EL AFILIADO”a obligaciones adquiridas en los términos del presente Contrato, siempre y cuando “AVIVE” no sea responsable de dicho incumplimiento.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>6.1.</b> “EL AFILIADO”y “AVIVE” se obligan a notificarse directamente y por escrito, dentro de los tres días hábiles siguientes a que tengan conocimiento de ello, de la existencia de cualquier situación contenciosa que pudiera generar obligaciones de indemnización en los supuestos señalados en la presente cláusula.  Asimismo, las partes se proporcionarán recíprocamente la cooperación necesaria, a fin de que de manera conjunta, acuerden los medios de defensa y la forma de transigir ante los procedimientos jurídicos que se instauren en su contra, con motivo del cumplimiento del objeto del presente contrato o de las obligaciones derivadas del mismo.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>6.2.</b> “EL AFILIADO”y “AVIVE” acuerdan limitar la cantidad que por concepto de daños o perjuicios generados por motivo del incumplimiento del presente Contrato se les pueda ocasionar, por lo que en caso de que exista sentencia definitiva que cause cosa juzgada en contra de una de las Partes, por haber causado un daño o un perjuicio a la otra Parte, entonces, la cantidad máxima de indemnización que la Parte responsable cubrirá a la parte afectada será hasta el monto total de la contraprestación pactada en el presente contrato.  La limitación de daños y perjuicios aquí pactada no aplicará en caso de que la Parte responsable cause daños y perjuicios a la Parte afectada de forma dolosa, con intención, o a partir de información falsa o cuando dichos daños y perjuicios sean causados por conductas o acciones en las que la Parte responsable haya sido notificada previamente por la Parte afectada, de que con sus acciones u omisiones se causarán dichos daños y perjuicios y no obstante dicha notificación, la Parte responsable haya incurrido en dichas conductas y acciones.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        PDF::Ln(); 
+        PDF::SetFont('helvetica', 'B', 12);
+        PDF::writeHTML( 'CAUSALES DE RESCISIÓN.', true, 0, true, false, 'J');
+
+        PDF::SetFont('helvetica', '', 12);
+        PDF::Ln();
+        $txt='<b>SÉPTIMA-</b> Las Partes podrán declarar el incumplimiento de este Contrato, en los siguientes casos (cada uno denominado en lo sucesivo como un “Incumplimiento”):';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>7.1</b> Casos de Incumplimiento en contra de “AVIVE”:';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>7.1.1</b> En caso de que “AVIVE”incumpla con cualquiera de sus obligaciones bajo el presente Contrato y no subsane su incumplimiento dentro de los diez días hábiles calendario siguientes a la fecha en que ocurra el Incumplimiento;';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>7.1.2</b> En caso de que cualquier declaración o garantía hecha o dada por “AVIVE” a “EL AFILIADO” en relación con este Contrato, fuere falsa o engañosa en cualquier aspecto sustancial;';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>7.1.3</b> En caso de que “AVIVE”, ya sea en forma voluntaria o a petición de tercero, quedare insolvente, iniciare un procedimiento para declararse en concurso mercantil o quiebra o cesare de conducir sus operaciones en forma habitual, o';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+        PDF::Ln();
+        $txt='<b>7.1.4</b> En caso de que las actividades de “AVIVE”sean suspendidas debido a un conflicto laboral colectivo, que afecte sustancialmente la continuación de las operaciones y actividades de “AVIVE”, incluyendo la huelga, cuyo conflicto no sea concluido dentro de los treinta días hábiles siguientes a la fecha en que dio inicio.';
+        PDF::writeHTML( $txt, true, 0, true, false, 'J');
+
+
+        
+
+
         
 
 
 
         
 
+                    
+
+                    
+
+
+
+
+
+
 
         
-
-        
-
 
         //linea de render del PDF
-        PDF::Output('prueba -.pdf');
+        PDF::Output('contrto -.pdf');
 
         
 
